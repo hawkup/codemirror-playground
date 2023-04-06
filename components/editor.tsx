@@ -28,7 +28,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import { cursorLayer, themeCursor } from "./cursor-layer"
+import { cursorLayer, drawCursor, themeCursor } from "./cursor-layer"
 
 interface StateProps {
   view: EditorView
@@ -183,8 +183,7 @@ export function AspectRatioDemo() {
   )
 }`,
       extensions: [
-        cursorLayer,
-        themeCursor,
+        drawCursor(),
         basicSetup,
         javascript(),
         EditorView.lineWrapping,
@@ -205,7 +204,7 @@ export function AspectRatioDemo() {
   return (
     <div className="flex flex-col">
       <div className="sticky top-0 z-10 flex space-x-4 bg-white py-8">
-        <div className="border" ref={container} />
+        <div className="max-w-[600px] border" ref={container} />
         <div>
           <State view={view} state={state} />
         </div>
