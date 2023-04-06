@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
+import { cursorLayer, themeCursor } from "./cursor-layer"
 
 interface StateProps {
   view: EditorView
@@ -180,6 +181,8 @@ export function AspectRatioDemo() {
   )
 }`,
       extensions: [
+        cursorLayer,
+        themeCursor,
         basicSetup,
         javascript(),
         EditorView.lineWrapping,
