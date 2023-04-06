@@ -99,7 +99,7 @@ export const commands = [
     },
   },
   {
-    title: "cursor-Char-Left",
+    title: "cursorCharLeft",
     key: "cursorCharLeft",
     run: (view: EditorView) => {
       cursorCharLeft(view)
