@@ -77,6 +77,7 @@ import {
   selectSubwordForward,
   selectSyntaxLeft,
   selectSyntaxRight,
+  simplifySelection,
   splitLine,
   toggleBlockComment,
   toggleBlockCommentByLine,
@@ -92,6 +93,8 @@ export const commands = [
   {
     title: "Insert Text",
     key: "",
+    section: "",
+    subSection: "",
     run: (view: EditorView, text: string = "Hello World") => {
       view.dispatch({
         changes: { from: view.state.selection.main.head, insert: text },
@@ -99,8 +102,19 @@ export const commands = [
     },
   },
   {
+    title: "simplifySelection",
+    key: "simplifySelection",
+    section: "Selection",
+    subSection: "",
+    run: (view: EditorView) => {
+      simplifySelection(view)
+    },
+  },
+  {
     title: "cursorCharLeft",
     key: "cursorCharLeft",
+    section: "Selection",
+    subSection: "By character",
     run: (view: EditorView) => {
       cursorCharLeft(view)
     },
@@ -108,6 +122,8 @@ export const commands = [
   {
     title: "selectCharLeft",
     key: "selectCharLeft",
+    section: "Selection",
+    subSection: "By character",
     run: (view: EditorView) => {
       selectCharLeft(view)
     },
@@ -115,6 +131,8 @@ export const commands = [
   {
     title: "cursorCharRight",
     key: "cursorCharRight",
+    section: "Selection",
+    subSection: "By character",
     run: (view: EditorView) => {
       cursorCharRight(view)
     },
@@ -122,6 +140,8 @@ export const commands = [
   {
     title: "selectCharRight",
     key: "selectCharRight",
+    section: "Selection",
+    subSection: "By character",
     run: (view: EditorView) => {
       selectCharRight(view)
     },
@@ -129,6 +149,8 @@ export const commands = [
   {
     title: "cursorCharForward",
     key: "cursorCharForward",
+    section: "Selection",
+    subSection: "By character",
     run: (view: EditorView) => {
       cursorCharForward(view)
     },
@@ -136,6 +158,8 @@ export const commands = [
   {
     title: "selectCharForward",
     key: "selectCharForward",
+    section: "Selection",
+    subSection: "By character",
     run: (view: EditorView) => {
       selectCharForward(view)
     },
@@ -143,6 +167,8 @@ export const commands = [
   {
     title: "cursorCharBackward",
     key: "cursorCharBackward",
+    section: "Selection",
+    subSection: "By character",
     run: (view: EditorView) => {
       cursorCharBackward(view)
     },
@@ -150,6 +176,8 @@ export const commands = [
   {
     title: "selectCharBackward",
     key: "selectCharBackward",
+    section: "Selection",
+    subSection: "By character",
     run: (view: EditorView) => {
       selectCharBackward(view)
     },
@@ -157,6 +185,8 @@ export const commands = [
   {
     title: "cursorGroupLeft",
     key: "cursorGroupLeft",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       cursorGroupLeft(view)
     },
@@ -164,6 +194,8 @@ export const commands = [
   {
     title: "selectGroupLeft",
     key: "selectGroupLeft",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       selectGroupLeft(view)
     },
@@ -171,6 +203,8 @@ export const commands = [
   {
     title: "cursorGroupRight",
     key: "cursorGroupRight",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       cursorGroupRight(view)
     },
@@ -178,6 +212,8 @@ export const commands = [
   {
     title: "selectGroupRight",
     key: "selectGroupRight",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       selectGroupRight(view)
     },
@@ -185,6 +221,8 @@ export const commands = [
   {
     title: "cursorGroupForward",
     key: "cursorGroupForward",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       cursorGroupForward(view)
     },
@@ -192,6 +230,8 @@ export const commands = [
   {
     title: "selectGroupForward",
     key: "selectGroupForward",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       selectGroupForward(view)
     },
@@ -199,6 +239,8 @@ export const commands = [
   {
     title: "cursorGroupBackward",
     key: "cursorGroupBackward",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       cursorGroupBackward(view)
     },
@@ -206,6 +248,8 @@ export const commands = [
   {
     title: "selectGroupBackward",
     key: "selectGroupBackward",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       selectGroupBackward(view)
     },
@@ -213,6 +257,8 @@ export const commands = [
   {
     title: "cursorSubwordForward",
     key: "cursorSubwordForward",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       cursorSubwordForward(view)
     },
@@ -220,6 +266,8 @@ export const commands = [
   {
     title: "selectSubwordForward",
     key: "selectSubwordForward",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       selectSubwordForward(view)
     },
@@ -227,6 +275,8 @@ export const commands = [
   {
     title: "cursorSubwordBackward",
     key: "cursorSubwordBackward",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       cursorSubwordBackward(view)
     },
@@ -234,6 +284,8 @@ export const commands = [
   {
     title: "selectSubwordBackward",
     key: "selectSubwordBackward",
+    section: "Selection",
+    subSection: "By group",
     run: (view: EditorView) => {
       selectSubwordBackward(view)
     },
@@ -241,6 +293,8 @@ export const commands = [
   {
     title: "cursorLineUp",
     key: "cursorLineUp",
+    section: "Vertical motion",
+    subSection: "",
     run: (view: EditorView) => {
       cursorLineUp(view)
     },
@@ -248,6 +302,8 @@ export const commands = [
   {
     title: "selectLineUp",
     key: "selectLineUp",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineUp(view)
     },
@@ -255,6 +311,8 @@ export const commands = [
   {
     title: "cursorLineDown",
     key: "cursorLineDown",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineDown(view)
     },
@@ -262,6 +320,8 @@ export const commands = [
   {
     title: "selectLineDown",
     key: "selectLineDown",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineDown(view)
     },
@@ -269,6 +329,8 @@ export const commands = [
   {
     title: "cursorPageUp",
     key: "cursorPageUp",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorPageUp(view)
     },
@@ -276,6 +338,8 @@ export const commands = [
   {
     title: "selectPageUp",
     key: "selectPageUp",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       selectPageUp(view)
     },
@@ -283,6 +347,8 @@ export const commands = [
   {
     title: "cursorPageDown",
     key: "cursorPageDown",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorPageDown(view)
     },
@@ -290,6 +356,8 @@ export const commands = [
   {
     title: "selectPageDown",
     key: "selectPageDown",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       selectPageDown(view)
     },
@@ -297,6 +365,8 @@ export const commands = [
   {
     title: "cursorLineBoundaryForward",
     key: "cursorLineBoundaryForward",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineBoundaryForward(view)
     },
@@ -304,6 +374,8 @@ export const commands = [
   {
     title: "selectLineBoundaryForward",
     key: "selectLineBoundaryForward",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineBoundaryForward(view)
     },
@@ -311,6 +383,8 @@ export const commands = [
   {
     title: "cursorLineBoundaryBackward",
     key: "cursorLineBoundaryBackward",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineBoundaryBackward(view)
     },
@@ -318,6 +392,8 @@ export const commands = [
   {
     title: "selectLineBoundaryBackward",
     key: "selectLineBoundaryBackward",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineBoundaryBackward(view)
     },
@@ -325,6 +401,8 @@ export const commands = [
   {
     title: "cursorLineBoundaryLeft",
     key: "cursorLineBoundaryLeft",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineBoundaryLeft(view)
     },
@@ -332,6 +410,8 @@ export const commands = [
   {
     title: "selectLineBoundaryLeft",
     key: "selectLineBoundaryLeft",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineBoundaryLeft(view)
     },
@@ -339,6 +419,8 @@ export const commands = [
   {
     title: "cursorLineBoundaryRight",
     key: "cursorLineBoundaryRight",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineBoundaryRight(view)
     },
@@ -346,6 +428,8 @@ export const commands = [
   {
     title: "selectLineBoundaryRight",
     key: "selectLineBoundaryRight",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineBoundaryRight(view)
     },
@@ -353,6 +437,8 @@ export const commands = [
   {
     title: "cursorLineStart",
     key: "cursorLineStart",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineStart(view)
     },
@@ -360,6 +446,8 @@ export const commands = [
   {
     title: "selectLineStart",
     key: "selectLineStart",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineStart(view)
     },
@@ -367,6 +455,8 @@ export const commands = [
   {
     title: "cursorLineEnd",
     key: "cursorLineEnd",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineEnd(view)
     },
@@ -374,6 +464,8 @@ export const commands = [
   {
     title: "selectLineEnd",
     key: "selectLineEnd",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineEnd(view)
     },
@@ -381,6 +473,8 @@ export const commands = [
   {
     title: "selectLine",
     key: "selectLine",
+    section: "Vertical motion",
+    subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLine(view)
     },
@@ -388,6 +482,8 @@ export const commands = [
   {
     title: "cursorDocStart",
     key: "cursorDocStart",
+    section: "Vertical motion",
+    subSection: "By document boundary",
     run: (view: EditorView) => {
       cursorDocStart(view)
     },
@@ -395,6 +491,8 @@ export const commands = [
   {
     title: "selectDocStart",
     key: "selectDocStart",
+    section: "Vertical motion",
+    subSection: "By document boundary",
     run: (view: EditorView) => {
       selectDocStart(view)
     },
@@ -402,6 +500,8 @@ export const commands = [
   {
     title: "cursorDocEnd",
     key: "cursorDocEnd",
+    section: "Vertical motion",
+    subSection: "By document boundary",
     run: (view: EditorView) => {
       cursorDocEnd(view)
     },
@@ -409,6 +509,8 @@ export const commands = [
   {
     title: "selectDocEnd",
     key: "selectDocEnd",
+    section: "Vertical motion",
+    subSection: "By document boundary",
     run: (view: EditorView) => {
       selectDocEnd(view)
     },
@@ -416,6 +518,8 @@ export const commands = [
   {
     title: "selectAll",
     key: "selectAll",
+    section: "Vertical motion",
+    subSection: "By document boundary",
     run: (view: EditorView) => {
       selectAll(view)
     },
@@ -423,6 +527,8 @@ export const commands = [
   {
     title: "cursorSyntaxLeft",
     key: "cursorSyntaxLeft",
+    section: "Vertical motion",
+    subSection: "By syntax",
     run: (view: EditorView) => {
       cursorSyntaxLeft(view)
     },
@@ -430,6 +536,8 @@ export const commands = [
   {
     title: "selectSyntaxLeft",
     key: "selectSyntaxLeft",
+    section: "Vertical motion",
+    subSection: "By syntax",
     run: (view: EditorView) => {
       selectSyntaxLeft(view)
     },
@@ -437,6 +545,8 @@ export const commands = [
   {
     title: "cursorSyntaxRight",
     key: "cursorSyntaxRight",
+    section: "Vertical motion",
+    subSection: "By syntax",
     run: (view: EditorView) => {
       cursorSyntaxRight(view)
     },
@@ -444,6 +554,8 @@ export const commands = [
   {
     title: "selectSyntaxRight",
     key: "selectSyntaxRight",
+    section: "Vertical motion",
+    subSection: "By syntax",
     run: (view: EditorView) => {
       selectSyntaxRight(view)
     },
@@ -451,6 +563,8 @@ export const commands = [
   {
     title: "selectParentSyntax",
     key: "selectParentSyntax",
+    section: "Vertical motion",
+    subSection: "By syntax",
     run: (view: EditorView) => {
       selectParentSyntax(view)
     },
@@ -458,6 +572,8 @@ export const commands = [
   {
     title: "cursorMatchingBracket",
     key: "cursorMatchingBracket",
+    section: "Vertical motion",
+    subSection: "By syntax",
     run: (view: EditorView) => {
       cursorMatchingBracket(view)
     },
@@ -465,6 +581,8 @@ export const commands = [
   {
     title: "selectMatchingBracket",
     key: "selectMatchingBracket",
+    section: "Vertical motion",
+    subSection: "By syntax",
     run: (view: EditorView) => {
       selectMatchingBracket(view)
     },
@@ -472,6 +590,8 @@ export const commands = [
   {
     title: "deleteCharBackward",
     key: "deleteCharBackward",
+    section: "Deletion",
+    subSection: "",
     run: (view: EditorView) => {
       deleteCharBackward(view)
     },
@@ -479,6 +599,8 @@ export const commands = [
   {
     title: "deleteCharForward",
     key: "deleteCharForward",
+    section: "Deletion",
+    subSection: "",
     run: (view: EditorView) => {
       deleteCharForward(view)
     },
@@ -486,6 +608,8 @@ export const commands = [
   {
     title: "deleteGroupBackward",
     key: "deleteGroupBackward",
+    section: "Deletion",
+    subSection: "",
     run: (view: EditorView) => {
       deleteGroupBackward(view)
     },
@@ -493,6 +617,8 @@ export const commands = [
   {
     title: "deleteGroupForward",
     key: "deleteGroupForward",
+    section: "Deletion",
+    subSection: "",
     run: (view: EditorView) => {
       deleteGroupForward(view)
     },
@@ -500,6 +626,8 @@ export const commands = [
   {
     title: "deleteToLineStart",
     key: "deleteToLineStart",
+    section: "Deletion",
+    subSection: "",
     run: (view: EditorView) => {
       deleteToLineStart(view)
     },
@@ -507,6 +635,8 @@ export const commands = [
   {
     title: "deleteToLineEnd",
     key: "deleteToLineEnd",
+    section: "Deletion",
+    subSection: "",
     run: (view: EditorView) => {
       deleteToLineEnd(view)
     },
@@ -514,6 +644,8 @@ export const commands = [
   {
     title: "deleteTrailingWhitespace",
     key: "deleteTrailingWhitespace",
+    section: "Deletion",
+    subSection: "",
     run: (view: EditorView) => {
       deleteTrailingWhitespace(view)
     },
@@ -521,6 +653,8 @@ export const commands = [
   {
     title: "splitLine",
     key: "splitLine",
+    section: "Line manipulation",
+    subSection: "",
     run: (view: EditorView) => {
       splitLine(view)
     },
@@ -528,6 +662,8 @@ export const commands = [
   {
     title: "moveLineUp",
     key: "moveLineUp",
+    section: "Line manipulation",
+    subSection: "",
     run: (view: EditorView) => {
       moveLineUp(view)
     },
@@ -535,6 +671,8 @@ export const commands = [
   {
     title: "moveLineDown",
     key: "moveLineDown",
+    section: "Line manipulation",
+    subSection: "",
     run: (view: EditorView) => {
       moveLineDown(view)
     },
@@ -542,6 +680,8 @@ export const commands = [
   {
     title: "copyLineUp",
     key: "copyLineUp",
+    section: "Line manipulation",
+    subSection: "",
     run: (view: EditorView) => {
       copyLineUp(view)
     },
@@ -549,6 +689,8 @@ export const commands = [
   {
     title: "copyLineDown",
     key: "copyLineDown",
+    section: "Line manipulation",
+    subSection: "",
     run: (view: EditorView) => {
       copyLineDown(view)
     },
@@ -556,6 +698,8 @@ export const commands = [
   {
     title: "deleteLine",
     key: "deleteLine",
+    section: "Line manipulation",
+    subSection: "",
     run: (view: EditorView) => {
       deleteLine(view)
     },
@@ -563,6 +707,8 @@ export const commands = [
   {
     title: "indentSelection",
     key: "indentSelection",
+    section: "Indentation",
+    subSection: "",
     run: (view: EditorView) => {
       indentSelection(view)
     },
@@ -570,6 +716,8 @@ export const commands = [
   {
     title: "indentMore",
     key: "indentMore",
+    section: "Indentation",
+    subSection: "",
     run: (view: EditorView) => {
       indentMore(view)
     },
@@ -577,6 +725,8 @@ export const commands = [
   {
     title: "indentLess",
     key: "indentLess",
+    section: "Indentation",
+    subSection: "",
     run: (view: EditorView) => {
       indentLess(view)
     },
@@ -584,6 +734,8 @@ export const commands = [
   {
     title: "insertTab",
     key: "insertTab",
+    section: "Indentation",
+    subSection: "",
     run: (view: EditorView) => {
       insertTab(view)
     },
@@ -591,6 +743,8 @@ export const commands = [
   {
     title: "transposeChars",
     key: "transposeChars",
+    section: "Character Manipulation",
+    subSection: "",
     run: (view: EditorView) => {
       transposeChars(view)
     },
@@ -598,6 +752,8 @@ export const commands = [
   {
     title: "insertNewline",
     key: "insertNewline",
+    section: "Character Manipulation",
+    subSection: "",
     run: (view: EditorView) => {
       insertNewline(view)
     },
@@ -605,6 +761,8 @@ export const commands = [
   {
     title: "insertNewlineAndIndent",
     key: "insertNewlineAndIndent",
+    section: "Character Manipulation",
+    subSection: "",
     run: (view: EditorView) => {
       insertNewlineAndIndent(view)
     },
@@ -612,6 +770,8 @@ export const commands = [
   {
     title: "insertBlankLine",
     key: "insertBlankLine",
+    section: "Character Manipulation",
+    subSection: "",
     run: (view: EditorView) => {
       insertBlankLine(view)
     },
@@ -619,6 +779,8 @@ export const commands = [
   {
     title: "undo",
     key: "undo",
+    section: "Undo History",
+    subSection: "",
     run: (view: EditorView) => {
       undo(view)
     },
@@ -626,6 +788,8 @@ export const commands = [
   {
     title: "redo",
     key: "redo",
+    section: "Undo History",
+    subSection: "",
     run: (view: EditorView) => {
       redo(view)
     },
@@ -633,6 +797,8 @@ export const commands = [
   {
     title: "undoSelection",
     key: "undoSelection",
+    section: "Undo History",
+    subSection: "",
     run: (view: EditorView) => {
       undoSelection(view)
     },
@@ -640,6 +806,8 @@ export const commands = [
   {
     title: "redoSelection",
     key: "redoSelection",
+    section: "Undo History",
+    subSection: "",
     run: (view: EditorView) => {
       redoSelection(view)
     },
@@ -647,6 +815,8 @@ export const commands = [
   {
     title: "toggleComment",
     key: "toggleComment",
+    section: "Commenting and Uncommenting",
+    subSection: "",
     run: (view: EditorView) => {
       toggleComment(view)
     },
@@ -654,6 +824,8 @@ export const commands = [
   {
     title: "toggleLineComment",
     key: "toggleLineComment",
+    section: "Commenting and Uncommenting",
+    subSection: "",
     run: (view: EditorView) => {
       toggleLineComment(view)
     },
@@ -661,6 +833,8 @@ export const commands = [
   {
     title: "lineComment",
     key: "lineComment",
+    section: "Commenting and Uncommenting",
+    subSection: "",
     run: (view: EditorView) => {
       lineComment(view)
     },
@@ -668,6 +842,8 @@ export const commands = [
   {
     title: "lineUncomment",
     key: "lineUncomment",
+    section: "Commenting and Uncommenting",
+    subSection: "",
     run: (view: EditorView) => {
       lineUncomment(view)
     },
@@ -675,6 +851,8 @@ export const commands = [
   {
     title: "toggleBlockComment",
     key: "toggleBlockComment",
+    section: "Commenting and Uncommenting",
+    subSection: "",
     run: (view: EditorView) => {
       toggleBlockComment(view)
     },
@@ -682,6 +860,8 @@ export const commands = [
   {
     title: "blockComment",
     key: "blockComment",
+    section: "Commenting and Uncommenting",
+    subSection: "",
     run: (view: EditorView) => {
       blockComment(view)
     },
@@ -689,6 +869,8 @@ export const commands = [
   {
     title: "blockUncomment",
     key: "blockUncomment",
+    section: "Commenting and Uncommenting",
+    subSection: "",
     run: (view: EditorView) => {
       blockUncomment(view)
     },
@@ -696,6 +878,8 @@ export const commands = [
   {
     title: "toggleBlockCommentByLine",
     key: "toggleBlockCommentByLine",
+    section: "Commenting and Uncommenting",
+    subSection: "",
     run: (view: EditorView) => {
       toggleBlockCommentByLine(view)
     },
