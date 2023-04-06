@@ -7,7 +7,7 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   return (
     <>
-      <SiteHeader />
+      {/* <SiteHeader /> */}
       <main>{children}</main>
     </>
   )
