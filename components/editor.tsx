@@ -124,14 +124,15 @@ function Command(props: CommandProps) {
   return (
     <div className="space-y-4">
       <Input onChange={onSearch} />
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-6 gap-4">
         {results.length
           ? results.map((result) => (
               <Card key={result.document.title}>
                 <Card.Title>{result.document.title}</Card.Title>
                 <Card.Content>
                   <Button
-                    variant="default"
+                    variant="outline"
+                    size="sm"
                     onClick={() => result.document.run(props.view)}
                   >
                     Run
@@ -144,7 +145,8 @@ function Command(props: CommandProps) {
                 <Card.Title>{result.title}</Card.Title>
                 <Card.Content>
                   <Button
-                    variant="default"
+                    variant="outline"
+                    size="sm"
                     onClick={() => result.run(props.view)}
                   >
                     Run
@@ -201,19 +203,16 @@ export function AspectRatioDemo() {
   }, [])
 
   return (
-    <div className="grid grid-cols-2 gap-6">
-      <div>
+    <div className="flex flex-col">
+      <div className="sticky top-0 z-10 flex space-x-4 bg-white py-8">
         <div className="border" ref={container} />
-      </div>
-      <ScrollArea className="h-[calc(100vh-6rem)] px-6 py-2">
-        <div className="relative px-2">
-          <div className="sticky top-0 bg-white py-4">
-            <State view={view} state={state} />
-          </div>
-          <Separator className="mb-4" />
-          <Command view={view} state={state} />
+        <div>
+          <State view={view} state={state} />
         </div>
-      </ScrollArea>
+      </div>
+      <div className="relative px-2 py-4">
+        <Command view={view} state={state} />
+      </div>
     </div>
   )
 }
