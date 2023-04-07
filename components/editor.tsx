@@ -123,7 +123,7 @@ function Command(props: CommandProps) {
 
   return (
     <div className="space-y-4">
-      <Input onChange={onSearch} />
+      <Input placeholder="search" onChange={onSearch} />
       <div className="grid grid-cols-6 gap-4">
         {results.length
           ? results.map((result) => (
