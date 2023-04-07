@@ -15,7 +15,7 @@ const cursorConfig = Facet.define<CursorConfig, Required<CursorConfig>>({
     return combineConfig(
       configs,
       {
-        drawBlockCursor: true,
+        drawBlockCursor: false,
       },
       {
         drawBlockCursor: (a, b) => a || b,
@@ -64,7 +64,7 @@ export const cursorLayer = layer({
 export const themeCursor = EditorView.theme({
   ".cm-custom-cursor": {
     display: "block",
-    borderLeft: "1.2px solid black",
+    borderLeft: "1.2px solid red",
     marginLeft: "-0.6px",
     pointerEvents: "none",
   },
