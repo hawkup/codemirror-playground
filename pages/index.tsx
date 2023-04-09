@@ -1,25 +1,19 @@
 import Head from "next/head"
-import Link from "next/link"
 
-import { siteConfig } from "@/config/site"
-import { Editor } from "@/components/editor"
 import { Layout } from "@/components/layout"
-import { buttonVariants } from "@/components/ui/button"
+import { Playground } from "@/components/playground"
 
 export default function IndexPage() {
   return (
     <Layout>
       <Head>
-        <title>Next.js</title>
-        <meta
-          name="description"
-          content="Next.js template for building apps with Radix UI and Tailwind CSS"
-        />
+        <title>CodeMirror Playground</title>
+        <meta name="description" content="CodeMirror Playground" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="container grid items-center gap-6 pb-8">
-        <Editor />
+      <section className="container pb-8">
+        <Playground />
       </section>
     </Layout>
   )

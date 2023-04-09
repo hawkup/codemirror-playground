@@ -89,7 +89,15 @@ import {
 } from "@codemirror/commands"
 import type { EditorView } from "@codemirror/view"
 
-export const commands = [
+export type Command = {
+  title: string
+  key: string
+  section: string
+  subSection: string
+  run: (view: EditorView, args?: unknown) => void
+}
+
+export const commands: Command[] = [
   {
     title: "Insert Text",
     key: "",

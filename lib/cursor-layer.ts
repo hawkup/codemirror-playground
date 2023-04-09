@@ -64,7 +64,7 @@ export const cursorLayer = layer({
 export const themeCursor = EditorView.theme({
   ".cm-custom-cursor": {
     display: "block",
-    borderLeft: "1.2px solid red",
+    borderLeft: "2px solid #000",
     marginLeft: "-0.6px",
     pointerEvents: "none",
   },
