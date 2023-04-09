@@ -8,8 +8,8 @@ import {
 } from "@/context/command-context"
 import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
 import { create, insertMultiple } from "@orama/orama"
-import { tokenizer as defaultTokenizer } from "@orama/orama/components"
-import { stemmer } from "@orama/orama/stemmers/en"
+// import { tokenizer as defaultTokenizer } from "@orama/orama/components"
+// import { stemmer } from "@orama/orama/stemmers/en"
 import {
   afterInsert as highlightAfterInsert,
   searchWithHighlight,
@@ -31,29 +31,32 @@ async function initSearch() {
       key: "string",
     },
     components: {
-      tokenizer: await (async () => {
-        const tokenizer = await defaultTokenizer.createTokenizer({
-          language: "english",
-          stemming: false,
-        })
+      // tokenizer: await (async () => {
+      //   const tokenizer = await defaultTokenizer.createTokenizer({
+      //     language: "english",
+      //     stemming: false,
+      //   })
 
-        const tokenize = tokenizer.tokenize
+      //   const tokenize = tokenizer.tokenize
 
-        function customTokenize(input: string, language?: string) {
-          let value = input
-          if (typeof input === "string") {
-            value = input.replace(/([a-z])([A-Z])/g, "$1 $2")
-          }
+      //   function customTokenize(input: string, language?: string) {
+      //     let value = input
+      //     if (typeof input === "string") {
+      //       value = input.replace(/([a-z])([A-Z])/g, "$1 $2")
+      //     }
 
-          const tokens = tokenize(value, language)
+      //     const tokens = tokenize(value, language)
 
-          return tokens
-        }
+      //     return tokens
+      //   }
 
-        tokenizer.tokenize = customTokenize
+      //   tokenizer.tokenize = customTokenize
 
-        return tokenizer
-      })(),
+      //   return tokenizer
+      // })(),
+      tokenizer: {
+        stemming: false,
+      },
       afterInsert: [
         async (orama, id) => {
           highlightAfterInsert(orama, id)
