@@ -92,19 +92,18 @@ import type { EditorView } from "@codemirror/view"
 export type Command = {
   _id: string
   title: string
+  description: string
   key: string
   section: string
   subSection: string
   run: (view: EditorView, args?: unknown) => void
-  meta: {
-    star: boolean
-  }
 }
 
 export const commands: Command[] = [
   {
     _id: "1",
     title: "Insert Text",
+    description: "",
     key: "",
     section: "",
     subSection: "",
@@ -113,1139 +112,962 @@ export const commands: Command[] = [
         changes: { from: view.state.selection.main.head, insert: text },
       })
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "2",
-    title: "simplifySelection",
+    title: "Simplify Selection",
+    description: "",
     key: "simplifySelection",
     section: "Selection",
     subSection: "",
     run: (view: EditorView) => {
       simplifySelection(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "3",
-    title: "cursorCharLeft",
+    title: "Cursor Char Left",
+    description: "",
     key: "cursorCharLeft",
     section: "Selection",
     subSection: "By character",
     run: (view: EditorView) => {
       cursorCharLeft(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "4",
-    title: "selectCharLeft",
+    title: "Select Char Left",
+    description: "",
     key: "selectCharLeft",
     section: "Selection",
     subSection: "By character",
     run: (view: EditorView) => {
       selectCharLeft(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "5",
-    title: "cursorCharRight",
+    title: "Cursor Char Right",
+    description: "",
     key: "cursorCharRight",
     section: "Selection",
     subSection: "By character",
     run: (view: EditorView) => {
       cursorCharRight(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "6",
-    title: "selectCharRight",
+    title: "Select Char Right",
+    description: "",
     key: "selectCharRight",
     section: "Selection",
     subSection: "By character",
     run: (view: EditorView) => {
       selectCharRight(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "7",
-    title: "cursorCharForward",
+    title: "Cursor Char Forward",
+    description: "",
     key: "cursorCharForward",
     section: "Selection",
     subSection: "By character",
     run: (view: EditorView) => {
       cursorCharForward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "8",
-    title: "selectCharForward",
+    title: "Select Char Forward",
+    description: "",
     key: "selectCharForward",
     section: "Selection",
     subSection: "By character",
     run: (view: EditorView) => {
       selectCharForward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "9",
-    title: "cursorCharBackward",
+    title: "Cursor Char Backward",
+    description: "",
     key: "cursorCharBackward",
     section: "Selection",
     subSection: "By character",
     run: (view: EditorView) => {
       cursorCharBackward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "10",
-    title: "selectCharBackward",
+    title: "Select Char Backward",
+    description: "",
     key: "selectCharBackward",
     section: "Selection",
     subSection: "By character",
     run: (view: EditorView) => {
       selectCharBackward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "11",
-    title: "cursorGroupLeft",
+    title: "Cursor Group Left",
+    description: "",
     key: "cursorGroupLeft",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       cursorGroupLeft(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "12",
-    title: "selectGroupLeft",
+    title: "Select Group Left",
+    description: "",
     key: "selectGroupLeft",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       selectGroupLeft(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "13",
-    title: "cursorGroupRight",
+    title: "Cursor Group Right",
+    description: "",
     key: "cursorGroupRight",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       cursorGroupRight(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "14",
-    title: "selectGroupRight",
+    title: "Select Group Right",
+    description: "",
     key: "selectGroupRight",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       selectGroupRight(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "15",
-    title: "cursorGroupForward",
+    title: "Cursor Group Forward",
+    description: "",
     key: "cursorGroupForward",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       cursorGroupForward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "16",
-    title: "selectGroupForward",
+    title: "Select Group Forward",
+    description: "",
     key: "selectGroupForward",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       selectGroupForward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "17",
-    title: "cursorGroupBackward",
+    title: "Cursor Group Backward",
+    description: "",
     key: "cursorGroupBackward",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       cursorGroupBackward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "18",
-    title: "selectGroupBackward",
+    title: "Select Group Backward",
+    description: "",
     key: "selectGroupBackward",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       selectGroupBackward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "19",
-    title: "cursorSubwordForward",
+    title: "Cursor Subword Forward",
+    description: "",
     key: "cursorSubwordForward",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       cursorSubwordForward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "20",
-    title: "selectSubwordForward",
+    title: "Select Subword Forward",
+    description: "",
     key: "selectSubwordForward",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       selectSubwordForward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "21",
-    title: "cursorSubwordBackward",
+    title: "Cursor Subword Backward",
+    description: "",
     key: "cursorSubwordBackward",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       cursorSubwordBackward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "22",
-    title: "selectSubwordBackward",
+    title: "Select Subword Backward",
+    description: "",
     key: "selectSubwordBackward",
     section: "Selection",
     subSection: "By group",
     run: (view: EditorView) => {
       selectSubwordBackward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "23",
-    title: "cursorLineUp",
+    title: "Cursor Line Up",
+    description: "",
     key: "cursorLineUp",
     section: "Vertical motion",
     subSection: "",
     run: (view: EditorView) => {
       cursorLineUp(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "24",
-    title: "selectLineUp",
+    title: "Select Line Up",
+    description: "",
     key: "selectLineUp",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineUp(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "25",
-    title: "cursorLineDown",
+    title: "Cursor Line Down",
+    description: "",
     key: "cursorLineDown",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineDown(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "26",
-    title: "selectLineDown",
+    title: "Select Line Down",
+    description: "",
     key: "selectLineDown",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineDown(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "27",
-    title: "cursorPageUp",
+    title: "Cursor Page Up",
+    description: "",
     key: "cursorPageUp",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorPageUp(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "28",
-    title: "selectPageUp",
+    title: "Select Page Up",
+    description: "",
     key: "selectPageUp",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       selectPageUp(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "29",
-    title: "cursorPageDown",
+    title: "Cursor Page Down",
+    description: "",
     key: "cursorPageDown",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorPageDown(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "30",
-    title: "selectPageDown",
+    title: "Select Page Down",
+    description: "",
     key: "selectPageDown",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       selectPageDown(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "31",
-    title: "cursorLineBoundaryForward",
+    title: "Cursor Line Boundary Forward",
+    description: "",
     key: "cursorLineBoundaryForward",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineBoundaryForward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "32",
-    title: "selectLineBoundaryForward",
+    title: "Select Line Boundary Forward",
+    description: "",
     key: "selectLineBoundaryForward",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineBoundaryForward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "33",
-    title: "cursorLineBoundaryBackward",
+    title: "Cursor Line Boundary Backward",
+    description: "",
     key: "cursorLineBoundaryBackward",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineBoundaryBackward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "34",
-    title: "selectLineBoundaryBackward",
+    title: "Select Line Boundary Backward",
+    description: "",
     key: "selectLineBoundaryBackward",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineBoundaryBackward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "35",
-    title: "cursorLineBoundaryLeft",
+    title: "Cursor Line Boundary Left",
+    description: "",
     key: "cursorLineBoundaryLeft",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineBoundaryLeft(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "36",
-    title: "selectLineBoundaryLeft",
+    title: "Select Line Boundary Left",
+    description: "",
     key: "selectLineBoundaryLeft",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineBoundaryLeft(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "37",
-    title: "cursorLineBoundaryRight",
+    title: "Cursor Line Boundary Right",
+    description: "",
     key: "cursorLineBoundaryRight",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineBoundaryRight(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "38",
-    title: "selectLineBoundaryRight",
+    title: "Select Line Boundary Right",
+    description: "",
     key: "selectLineBoundaryRight",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineBoundaryRight(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "39",
-    title: "cursorLineStart",
+    title: "Cursor Line Start",
+    description: "",
     key: "cursorLineStart",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineStart(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "40",
-    title: "selectLineStart",
+    title: "Select Line Start",
+    description: "",
     key: "selectLineStart",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineStart(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "41",
-    title: "cursorLineEnd",
+    title: "Cursor Line End",
+    description: "",
     key: "cursorLineEnd",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       cursorLineEnd(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "42",
-    title: "selectLineEnd",
+    title: "Select Line End",
+    description: "",
     key: "selectLineEnd",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLineEnd(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "43",
-    title: "selectLine",
+    title: "Select Line",
+    description: "",
     key: "selectLine",
     section: "Vertical motion",
     subSection: "By line boundary",
     run: (view: EditorView) => {
       selectLine(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "44",
-    title: "cursorDocStart",
+    title: "Cursor Doc Start",
+    description: "",
     key: "cursorDocStart",
     section: "Vertical motion",
     subSection: "By document boundary",
     run: (view: EditorView) => {
       cursorDocStart(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "45",
-    title: "selectDocStart",
+    title: "Select Doc Start",
+    description: "",
     key: "selectDocStart",
     section: "Vertical motion",
     subSection: "By document boundary",
     run: (view: EditorView) => {
       selectDocStart(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "46",
-    title: "cursorDocEnd",
+    title: "Cursor Doc End",
+    description: "",
     key: "cursorDocEnd",
     section: "Vertical motion",
     subSection: "By document boundary",
     run: (view: EditorView) => {
       cursorDocEnd(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "47",
-    title: "selectDocEnd",
+    title: "Select Doc End",
+    description: "",
     key: "selectDocEnd",
     section: "Vertical motion",
     subSection: "By document boundary",
     run: (view: EditorView) => {
       selectDocEnd(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "48",
-    title: "selectAll",
+    title: "Select All",
+    description: "",
     key: "selectAll",
     section: "Vertical motion",
     subSection: "By document boundary",
     run: (view: EditorView) => {
       selectAll(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "49",
-    title: "cursorSyntaxLeft",
+    title: "Cursor Syntax Left",
+    description: "",
     key: "cursorSyntaxLeft",
     section: "Vertical motion",
     subSection: "By syntax",
     run: (view: EditorView) => {
       cursorSyntaxLeft(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "50",
-    title: "selectSyntaxLeft",
+    title: "Select Syntax Left",
+    description: "",
     key: "selectSyntaxLeft",
     section: "Vertical motion",
     subSection: "By syntax",
     run: (view: EditorView) => {
       selectSyntaxLeft(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "51",
-    title: "cursorSyntaxRight",
+    title: "Cursor Syntax Right",
+    description: "",
     key: "cursorSyntaxRight",
     section: "Vertical motion",
     subSection: "By syntax",
     run: (view: EditorView) => {
       cursorSyntaxRight(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "52",
-    title: "selectSyntaxRight",
+    title: "Select Syntax Right",
+    description: "",
     key: "selectSyntaxRight",
     section: "Vertical motion",
     subSection: "By syntax",
     run: (view: EditorView) => {
       selectSyntaxRight(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "53",
-    title: "selectParentSyntax",
+    title: "Select Parent Syntax",
+    description: "",
     key: "selectParentSyntax",
     section: "Vertical motion",
     subSection: "By syntax",
     run: (view: EditorView) => {
       selectParentSyntax(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "54",
-    title: "cursorMatchingBracket",
+    title: "Cursor Matching Bracket",
+    description: "",
     key: "cursorMatchingBracket",
     section: "Vertical motion",
     subSection: "By syntax",
     run: (view: EditorView) => {
       cursorMatchingBracket(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "55",
-    title: "selectMatchingBracket",
+    title: "Select Matching Bracket",
+    description: "",
     key: "selectMatchingBracket",
     section: "Vertical motion",
     subSection: "By syntax",
     run: (view: EditorView) => {
       selectMatchingBracket(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "56",
-    title: "deleteCharBackward",
+    title: "Delete Char Backward",
+    description: "",
     key: "deleteCharBackward",
     section: "Deletion",
     subSection: "",
     run: (view: EditorView) => {
       deleteCharBackward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "57",
-    title: "deleteCharForward",
+    title: "Delete Char Forward",
+    description: "",
     key: "deleteCharForward",
     section: "Deletion",
     subSection: "",
     run: (view: EditorView) => {
       deleteCharForward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "58",
-    title: "deleteGroupBackward",
+    title: "Delete Group Backward",
+    description: "",
     key: "deleteGroupBackward",
     section: "Deletion",
     subSection: "",
     run: (view: EditorView) => {
       deleteGroupBackward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "59",
-    title: "deleteGroupForward",
+    title: "Delete Group Forward",
+    description: "",
     key: "deleteGroupForward",
     section: "Deletion",
     subSection: "",
     run: (view: EditorView) => {
       deleteGroupForward(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "60",
-    title: "deleteToLineStart",
+    title: "Delete To Line Start",
+    description: "",
     key: "deleteToLineStart",
     section: "Deletion",
     subSection: "",
     run: (view: EditorView) => {
       deleteToLineStart(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "61",
-    title: "deleteToLineEnd",
+    title: "Delete To Line End",
+    description: "",
     key: "deleteToLineEnd",
     section: "Deletion",
     subSection: "",
     run: (view: EditorView) => {
       deleteToLineEnd(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "62",
-    title: "deleteTrailingWhitespace",
+    title: "Delete Trailing Whitespace",
+    description: "",
     key: "deleteTrailingWhitespace",
     section: "Deletion",
     subSection: "",
     run: (view: EditorView) => {
       deleteTrailingWhitespace(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "63",
-    title: "splitLine",
+    title: "Split Line",
+    description: "",
     key: "splitLine",
     section: "Line manipulation",
     subSection: "",
     run: (view: EditorView) => {
       splitLine(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "64",
-    title: "moveLineUp",
+    title: "Move Line Up",
+    description: "",
     key: "moveLineUp",
     section: "Line manipulation",
     subSection: "",
     run: (view: EditorView) => {
       moveLineUp(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "65",
-    title: "moveLineDown",
+    title: "Move Line Down",
+    description: "",
     key: "moveLineDown",
     section: "Line manipulation",
     subSection: "",
     run: (view: EditorView) => {
       moveLineDown(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "66",
     title: "copyLineUp",
+    description: "",
     key: "copyLineUp",
     section: "Line manipulation",
     subSection: "",
     run: (view: EditorView) => {
       copyLineUp(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "67",
-    title: "copyLineDown",
+    title: "Copy Line Down",
+    description: "",
     key: "copyLineDown",
     section: "Line manipulation",
     subSection: "",
     run: (view: EditorView) => {
       copyLineDown(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "68",
-    title: "deleteLine",
+    title: "Delete Line",
+    description: "",
     key: "deleteLine",
     section: "Line manipulation",
     subSection: "",
     run: (view: EditorView) => {
       deleteLine(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "69",
-    title: "indentSelection",
+    title: "Indent Selection",
+    description: "",
     key: "indentSelection",
     section: "Indentation",
     subSection: "",
     run: (view: EditorView) => {
       indentSelection(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "70",
-    title: "indentMore",
+    title: "Indent More",
+    description: "",
     key: "indentMore",
     section: "Indentation",
     subSection: "",
     run: (view: EditorView) => {
       indentMore(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "71",
-    title: "indentLess",
+    title: "Indent Less",
+    description: "",
     key: "indentLess",
     section: "Indentation",
     subSection: "",
     run: (view: EditorView) => {
       indentLess(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "72",
-    title: "insertTab",
+    title: "Insert Tab",
+    description: "",
     key: "insertTab",
     section: "Indentation",
     subSection: "",
     run: (view: EditorView) => {
       insertTab(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "73",
-    title: "transposeChars",
+    title: "Transpose Chars",
+    description: "",
     key: "transposeChars",
     section: "Character Manipulation",
     subSection: "",
     run: (view: EditorView) => {
       transposeChars(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "74",
-    title: "insertNewline",
+    title: "Insert Newline",
+    description: "",
     key: "insertNewline",
     section: "Character Manipulation",
     subSection: "",
     run: (view: EditorView) => {
       insertNewline(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "75",
-    title: "insertNewlineAndIndent",
+    title: "Insert Newline And Indent",
+    description: "",
     key: "insertNewlineAndIndent",
     section: "Character Manipulation",
     subSection: "",
     run: (view: EditorView) => {
       insertNewlineAndIndent(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "76",
-    title: "insertBlankLine",
+    title: "Insert BlankLine",
+    description: "",
     key: "insertBlankLine",
     section: "Character Manipulation",
     subSection: "",
     run: (view: EditorView) => {
       insertBlankLine(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "77",
-    title: "undo",
+    title: "Undo",
+    description: "",
     key: "undo",
     section: "Undo History",
     subSection: "",
     run: (view: EditorView) => {
       undo(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "78",
-    title: "redo",
+    title: "Redo",
+    description: "",
     key: "redo",
     section: "Undo History",
     subSection: "",
     run: (view: EditorView) => {
       redo(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "79",
-    title: "undoSelection",
+    title: "Undo Selection",
+    description: "",
     key: "undoSelection",
     section: "Undo History",
     subSection: "",
     run: (view: EditorView) => {
       undoSelection(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "80",
-    title: "redoSelection",
+    title: "Redo Selection",
+    description: "",
     key: "redoSelection",
     section: "Undo History",
     subSection: "",
     run: (view: EditorView) => {
       redoSelection(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "81",
-    title: "toggleComment",
+    title: "Toggle Comment",
+    description: "",
     key: "toggleComment",
     section: "Commenting and Uncommenting",
     subSection: "",
     run: (view: EditorView) => {
       toggleComment(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "82",
-    title: "toggleLineComment",
+    title: "Toggle Line Comment",
+    description: "",
     key: "toggleLineComment",
     section: "Commenting and Uncommenting",
     subSection: "",
     run: (view: EditorView) => {
       toggleLineComment(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "83",
-    title: "lineComment",
+    title: "Line Comment",
+    description: "",
     key: "lineComment",
     section: "Commenting and Uncommenting",
     subSection: "",
     run: (view: EditorView) => {
       lineComment(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "84",
-    title: "lineUncomment",
+    title: "Line Uncomment",
+    description: "",
     key: "lineUncomment",
     section: "Commenting and Uncommenting",
     subSection: "",
     run: (view: EditorView) => {
       lineUncomment(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "85",
-    title: "toggleBlockComment",
+    title: "Toggle Block Comment",
+    description: "",
     key: "toggleBlockComment",
     section: "Commenting and Uncommenting",
     subSection: "",
     run: (view: EditorView) => {
       toggleBlockComment(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "86",
-    title: "blockComment",
+    title: "Block Comment",
+    description: "",
     key: "blockComment",
     section: "Commenting and Uncommenting",
     subSection: "",
     run: (view: EditorView) => {
       blockComment(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "87",
-    title: "blockUncomment",
+    title: "Block Uncomment",
+    description: "",
     key: "blockUncomment",
     section: "Commenting and Uncommenting",
     subSection: "",
     run: (view: EditorView) => {
       blockUncomment(view)
     },
-    meta: {
-      star: false,
-    },
   },
   {
     _id: "88",
-    title: "toggleBlockCommentByLine",
+    title: "Toggle Block Comment By Line",
+    description: "",
     key: "toggleBlockCommentByLine",
     section: "Commenting and Uncommenting",
     subSection: "",
     run: (view: EditorView) => {
       toggleBlockCommentByLine(view)
-    },
-    meta: {
-      star: false,
     },
   },
 ]

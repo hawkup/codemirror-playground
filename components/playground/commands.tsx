@@ -3,19 +3,14 @@
 import * as React from "react"
 import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
 import {
-  Document,
   Results,
   SearchParams,
   create,
-  insert,
   insertMultiple,
-  remove,
   search,
-  update,
 } from "@orama/orama"
-// import { tokenizer as defaultTokenizer } from "@orama/orama/components"
-// import { stemmer } from "@orama/orama/stemmers/en"
 import {
+  Position,
   SearchResultWithHighlight,
   afterInsert as highlightAfterInsert,
   searchWithHighlight,
@@ -36,72 +31,31 @@ async function initSearch() {
     schema: {
       title: "string",
       key: "string",
-      meta: {
-        star: "boolean",
-      },
     },
     components: {
-      // tokenizer: await (async () => {
-      //   const tokenizer = await defaultTokenizer.createTokenizer({
-      //     language: "english",
-      //     stemming: false,
-      //   })
-
-      //   const tokenize = tokenizer.tokenize
-
-      //   function customTokenize(input: string, language?: string) {
-      //     let value = input
-      //     if (typeof input === "string") {
-      //       value = input.replace(/([a-z])([A-Z])/g, "$1 $2")
-      //     }
-
-      //     const tokens = tokenize(value, language)
-
-      //     return tokens
-      //   }
-
-      //   tokenizer.tokenize = customTokenize
-
-      //   return tokenizer
-      // })(),
       tokenizer: {
+        language: "english",
         stemming: false,
       },
-      getDocumentIndexId(doc: Command): string {
-        return `${doc._id}_${Date.now().toString()}`
-      },
+      afterInsert: [highlightAfterInsert],
     },
   })
 
   await insertMultiple(db, commands, 500)
 }
 
-function groupBy(arr, key) {
-  return arr.reduce((accumulator, currentValue) => {
-    const keyValue = currentValue.document[key]
-
-    if (!accumulator[keyValue]) {
-      accumulator[keyValue] = []
-    }
-
-    accumulator[keyValue].push(currentValue)
-    return accumulator
-  }, {})
-}
-
-async function searchTerm(term, filter) {
-  const searchResult = await search(db, {
+async function searchTerm(term) {
+  const searchResult = await searchWithHighlight(db, {
     term: term,
-    properties: ["title", "key"],
+    properties: ["title"],
     facets: {
       title: {
         sort: "ASC",
       },
     },
-    where: {
-      ...filter,
-    },
   })
+
+  console.log(searchResult)
 
   return searchResult
 }
@@ -109,18 +63,12 @@ async function searchTerm(term, filter) {
 initSearch()
 
 export function Commands() {
-  const [term, setTerm] = React.useState("")
-  const [filter, setFilter] = React.useState<SearchParams["where"]>({})
-  const [results, setResults] = React.useState<Results["hits"]>([])
-  const [groupResults, setGroupResults] = React.useState({})
+  const [hits, setHits] = React.useState<Results["hits"]>([])
 
   const onSearch = async (event) => {
-    setTerm(event.target.value)
+    const searchResult = await searchTerm(event.target.value)
 
-    const searchResult = await searchTerm(event.target.value, filter)
-
-    setResults(searchResult.hits)
-    setGroupResults(groupBy(searchResult.hits, "section"))
+    setHits(searchResult.hits)
   }
 
   return (
@@ -128,36 +76,109 @@ export function Commands() {
       <Input placeholder="search command" onChange={onSearch} />
 
       <div className="relative overflow-hidden border border-slate-100">
-        <ScrollArea className="h-96 rounded-md">
-          {results.length ? <CommandItem results={results} /> : null}
+        <ScrollArea className="h-[500px] rounded-md">
+          {hits.length ? <CommandItem hits={hits} /> : null}
         </ScrollArea>
       </div>
     </div>
   )
 }
 
-function CommandItem({ results }) {
+function CommandItem({ hits }) {
   const { view } = useOutputEditor(EDITOR_NAME)
 
   return (
     <div className="w-full">
-      {results.map((result) => (
+      {hits.map((hit) => (
         <div
-          key={result.id}
+          key={hit.id}
           className="flex items-center border-b border-b-slate-200 px-4"
         >
-          <div className="flex-1 py-4 font-medium">{result.document.title}</div>
+          <HighlightedDocument hit={hit} />
           <div className="flex items-center space-x-4">
             <Button
               variant="link"
               size="sm"
-              onClick={() => result.document.run(view)}
+              onClick={() => hit.document.run(view)}
             >
               Run
             </Button>
           </div>
         </div>
       ))}
+    </div>
+  )
+}
+
+function HighlightedDocument({ hit, trim = 200 }) {
+  const getHighlightedText = (text: string, positions: Position[]) => {
+    let highlightedText = ""
+    let currentIndex = 0
+
+    positions.forEach((position) => {
+      const start = position.start
+      const length = position.length
+      highlightedText += `${text.slice(
+        currentIndex,
+        start
+      )}<span class="text-blue-800 underline">${text.substring(
+        start,
+        start + length
+      )}</span>`
+      currentIndex = start + length
+    })
+
+    highlightedText += text.slice(currentIndex)
+    return highlightedText
+  }
+
+  const trimContent = (content: string, maxLength: number) => {
+    if (content.length > maxLength) {
+      return `${content.slice(0, maxLength)}...`
+    }
+    return content
+  }
+
+  const highlightDocument = () => {
+    const highlightedDocument = { ...hit.document }
+
+    for (const property in hit.positions) {
+      if (hit.positions[property]) {
+        const positionsArray = Object.values(
+          hit.positions[property]
+        ).flat() as Position[]
+        highlightedDocument[property] = getHighlightedText(
+          highlightedDocument[property] as string,
+          positionsArray
+        )
+      }
+    }
+
+    highlightedDocument.title = trimContent(
+      highlightedDocument.title as string,
+      trim
+    )
+
+    return highlightedDocument
+  }
+
+  const highlightedDocument = highlightDocument()
+
+  return (
+    <div className="flex-1 py-4">
+      <div
+        className="text-base font-semibold"
+        // rome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+        dangerouslySetInnerHTML={{
+          __html: highlightedDocument.title as string,
+        }}
+      />
+      <div
+        // rome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+        dangerouslySetInnerHTML={{
+          __html: highlightedDocument.content as string,
+        }}
+      />
     </div>
   )
 }
