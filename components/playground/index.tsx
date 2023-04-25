@@ -6,7 +6,6 @@ import { EditorView } from "@codemirror/view"
 import { Commands } from "@/components/playground/commands"
 import { Configuration } from "@/components/playground/configuration"
 import { OutputEditor } from "@/components/playground/output-editor"
-import { PlaygroundEditor } from "@/components/playground/playground-editor"
 import { State } from "@/components/playground/state"
 
 export function Playground() {
