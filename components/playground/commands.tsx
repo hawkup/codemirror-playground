@@ -2,27 +2,17 @@
 
 import * as React from "react"
 import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
-import {
-  Results,
-  SearchParams,
-  create,
-  insertMultiple,
-  search,
-} from "@orama/orama"
+import { Results, create, insertMultiple } from "@orama/orama"
 import {
   Position,
-  SearchResultWithHighlight,
   afterInsert as highlightAfterInsert,
   searchWithHighlight,
 } from "@orama/plugin-match-highlight"
-import { clsx } from "clsx"
 
-import { Command, commands } from "@/lib/commands"
-import { Icons } from "@/components/icons"
+import { commands } from "@/lib/commands"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Toggle } from "@/components/ui/toggle"
 
 let db
 
@@ -30,7 +20,6 @@ async function initSearch() {
   db = await create({
     schema: {
       title: "string",
-      key: "string",
     },
     components: {
       tokenizer: {
