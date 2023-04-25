@@ -1,11 +1,6 @@
 "use client"
 
 import * as React from "react"
-import {
-  COMMAND_NAME,
-  CommandProvider,
-  useCommand,
-} from "@/context/command-context"
 import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
 import {
   Document,
@@ -114,7 +109,6 @@ async function searchTerm(term, filter) {
 initSearch()
 
 export function Commands() {
-  const [selectedCommand, setSelectedCommand] = React.useState<Command>()
   const [term, setTerm] = React.useState("")
   const [filter, setFilter] = React.useState<SearchParams["where"]>({})
   const [results, setResults] = React.useState<Results["hits"]>([])
@@ -130,34 +124,19 @@ export function Commands() {
   }
 
   return (
-    <CommandProvider
-      selectedCommand={selectedCommand}
-      setSelectedCommand={setSelectedCommand}
-    >
-      <div className="space-y-4">
-        <Input placeholder="search command" onChange={onSearch} />
+    <div className="space-y-4">
+      <Input placeholder="search command" onChange={onSearch} />
 
-        <div className="relative overflow-hidden border border-slate-100">
-          <ScrollArea className="h-96 rounded-md">
-            {results.length ? <CommandItem results={results} /> : null}
-          </ScrollArea>
-          <div
-            className={clsx(
-              "transition-all ease-in-out duration-300 absolute top-0 right-0 h-full bg-white",
-              !selectedCommand && "left-[100%]",
-              selectedCommand && "left-0"
-            )}
-          >
-            <CommandPanel />
-          </div>
-        </div>
+      <div className="relative overflow-hidden border border-slate-100">
+        <ScrollArea className="h-96 rounded-md">
+          {results.length ? <CommandItem results={results} /> : null}
+        </ScrollArea>
       </div>
-    </CommandProvider>
+    </div>
   )
 }
 
 function CommandItem({ results }) {
-  const { setSelectedCommand } = useCommand(COMMAND_NAME)
   const { view } = useOutputEditor(EDITOR_NAME)
 
   return (
@@ -176,35 +155,9 @@ function CommandItem({ results }) {
             >
               Run
             </Button>
-            <Button
-              variant="link"
-              size="sm"
-              onClick={() => setSelectedCommand(result.document)}
-            >
-              <Icons.chevronRight />
-            </Button>
           </div>
         </div>
       ))}
     </div>
   )
-}
-
-function CommandPanel() {
-  const { selectedCommand, setSelectedCommand } = useCommand(COMMAND_NAME)
-
-  return selectedCommand ? (
-    <div className="p-4">
-      <div className="flex items-center justify-between text-lg font-semibold text-slate-900 dark:text-slate-50">
-        {selectedCommand.title}
-        <Button
-          variant="link"
-          size="sm"
-          onClick={() => setSelectedCommand(null)}
-        >
-          <Icons.close />
-        </Button>
-      </div>
-    </div>
-  ) : null
 }

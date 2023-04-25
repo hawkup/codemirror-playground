@@ -21,13 +21,12 @@ export function Playground() {
       setView={setView}
     >
       <div className="flex space-x-8 pt-8">
-        <div className="flex max-w-[500px] flex-col space-y-8">
+        <div className="flex h-[300px] w-[500px] flex-col space-y-8">
           <OutputEditor />
           <State />
           <Configuration />
         </div>
         <div className="flex flex-1 flex-col space-y-8">
-          {/* <PlaygroundEditor /> */}
           <Commands />
         </div>
       </div>
