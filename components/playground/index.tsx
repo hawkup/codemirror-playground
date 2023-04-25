@@ -20,7 +20,7 @@ export function Playground() {
       setView={setView}
     >
       <div className="flex space-x-8 pt-8">
-        <div className="flex h-[300px] w-[500px] flex-col space-y-8">
+        <div className="flex flex-col space-y-8">
           <OutputEditor />
           <State />
           <Configuration />

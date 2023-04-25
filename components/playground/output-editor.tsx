@@ -59,5 +59,7 @@ export function AspectRatioDemo() {
     }
   }, [setState, setView])
 
-  return <div className="rounded-md border" ref={container} />
+  return (
+    <div className="h-[300px] w-[500px] rounded-md border" ref={container} />
+  )
 }
