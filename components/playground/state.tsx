@@ -2,6 +2,8 @@
 
 import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
 
+import { vimConfig } from "@/lib/vim"
+
 export function State() {
   const { state } = useOutputEditor(EDITOR_NAME)
 
@@ -11,9 +13,7 @@ export function State() {
         State
       </h2>
       <div>
-        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-          Selection Ranges
-        </h3>
+        <p className="mt-2 font-semibold">Selection Ranges</p>
         <ol className="list-decimal">
           {state.selection.ranges.map((range) => (
             <li key={`${range.anchor}-${range.head}`} className="ml-6">
@@ -23,12 +23,16 @@ export function State() {
           ))}
         </ol>
 
-        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-          Selection Main
-        </h3>
+        <p className="mt-2 font-semibold">Selection Main</p>
         <div>
           <p>anchor: {state.selection.main.anchor}</p>
           <p>head: {state.selection.main.head}</p>
+        </div>
+
+        <p className="mt-2 font-semibold">Vim</p>
+        <div>
+          <p>enabled: {state.facet(vimConfig).enabled ? "true" : "false"}</p>
+          <p>mode: {state.facet(vimConfig).mode}</p>
         </div>
       </div>
     </div>

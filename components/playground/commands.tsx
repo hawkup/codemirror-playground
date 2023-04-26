@@ -44,8 +44,6 @@ async function searchTerm(term) {
     },
   })
 
-  console.log(searchResult)
-
   return searchResult
 }
 
@@ -65,36 +63,10 @@ export function Commands() {
       <Input placeholder="search command" onChange={onSearch} />
 
       <div className="relative overflow-hidden border border-slate-100">
-        <ScrollArea className="h-[500px] rounded-md">
+        <ScrollArea className="h-[800px] rounded-md">
           {hits.length ? <CommandItem hits={hits} /> : null}
         </ScrollArea>
       </div>
-    </div>
-  )
-}
-
-function CommandItem({ hits }) {
-  const { view } = useOutputEditor(EDITOR_NAME)
-
-  return (
-    <div className="w-full">
-      {hits.map((hit) => (
-        <div
-          key={hit.id}
-          className="flex items-center border-b border-b-slate-200 px-4"
-        >
-          <HighlightedDocument hit={hit} />
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="link"
-              size="sm"
-              onClick={() => hit.document.run(view)}
-            >
-              Run
-            </Button>
-          </div>
-        </div>
-      ))}
     </div>
   )
 }
@@ -168,6 +140,46 @@ function HighlightedDocument({ hit, trim = 200 }) {
           __html: highlightedDocument.content as string,
         }}
       />
+    </div>
+  )
+}
+
+function CommandItem({ hits }) {
+  const { view } = useOutputEditor(EDITOR_NAME)
+
+  return (
+    <div className="w-full">
+      {hits.map((hit) => (
+        <div key={hit.id} className="border-b border-b-slate-200 px-4 pb-4">
+          <div className="flex items-center">
+            <HighlightedDocument hit={hit} />
+
+            <div className="flex items-center space-x-4">
+              <Button size="sm" onClick={() => hit.document.run(view)}>
+                Run
+              </Button>
+            </div>
+          </div>
+          <p className="text-sm font-semibold">{hit.document.method}</p>
+          <p className="text-sm">{hit.document.description}</p>
+          {hit.document.vim ? (
+            <div className="mt-4">
+              <span className="text-sm underline">Vim</span>
+
+              {hit.document.vim.map((vim) => (
+                <div key={vim.key} className="flex space-x-2">
+                  <span className="text-sm">{vim.mode} Mode</span>
+                  <div className="flex">
+                    <kbd className="rounded bg-slate-700 px-2 text-sm font-bold text-white">
+                      {vim.key}
+                    </kbd>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      ))}
     </div>
   )
 }

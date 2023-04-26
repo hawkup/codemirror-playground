@@ -4,10 +4,12 @@ import * as React from "react"
 import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
 import { javascript } from "@codemirror/lang-javascript"
 import { Compartment } from "@codemirror/state"
-import type { ViewUpdate } from "@codemirror/view"
+import { ViewUpdate, keymap, type KeyBinding } from "@codemirror/view"
 import { EditorView, basicSetup } from "codemirror"
 
+import { commands } from "@/lib/commands"
 import { drawCursor } from "@/lib/cursor-layer"
+import { vim, vimConfig } from "@/lib/vim"
 
 const theme = EditorView.theme({
   ".cm-content": {
@@ -16,6 +18,25 @@ const theme = EditorView.theme({
 })
 
 export const lineWrapping = new Compartment()
+
+const keys = [] as KeyBinding[]
+
+for (const command of commands) {
+  if (command.vim) {
+    for (const vim of command.vim) {
+      keys.push({
+        key: vim.key,
+        run: (view) => {
+          const { enabled } = view.state.facet(vimConfig)
+
+          if (!enabled) return false
+
+          return command.run(view)
+        },
+      })
+    }
+  }
+}
 
 export function OutputEditor() {
   const container = React.useRef()
@@ -45,9 +66,11 @@ export function AspectRatioDemo() {
         basicSetup,
         javascript(),
         lineWrapping.of([]),
+        vim(),
         EditorView.updateListener.of(function (vu: ViewUpdate) {
           setState(vu.state)
         }),
+        keymap.of(keys),
       ],
       parent: container.current,
     })

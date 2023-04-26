@@ -87,12 +87,19 @@ import {
   undo,
   undoSelection,
 } from "@codemirror/commands"
-import type { EditorView } from "@codemirror/view"
+import type { Command as CMCommand, EditorView } from "@codemirror/view"
+
+type VimMode = "Normal" | "Insert" | "Visual" | "Visual Block" | "Visual Line"
 
 export type Command = {
   title: string
+  method?: string
   description: string
-  run: (view: EditorView, args?: unknown) => void
+  run: CMCommand
+  vim?: {
+    mode: VimMode
+    key: string
+  }[]
 }
 
 export const commands: Command[] = [
@@ -103,615 +110,758 @@ export const commands: Command[] = [
       view.dispatch({
         changes: { from: view.state.selection.main.head, insert: text },
       })
+      return true
     },
   },
   {
     title: "Simplify Selection",
-    description: "",
+    method: "simplifySelection: StateCommand",
+    description:
+      "Simplify the current selection. When multiple ranges are selected, reduce it to its main range. Otherwise, if the selection is non-empty, convert it to a cursor selection.",
     run: (view: EditorView) => {
-      simplifySelection(view)
+      return simplifySelection(view)
     },
   },
   {
     title: "Cursor Char Left",
-    description: "",
+    method: "cursorCharLeft: Command",
+    description:
+      "Move the selection one character to the left (which is backward in left-to-right text, forward in right-to-left text).",
     run: (view: EditorView) => {
-      cursorCharLeft(view)
+      return cursorCharLeft(view)
     },
+    vim: [
+      {
+        mode: "Normal",
+        key: "h",
+      },
+    ],
   },
   {
     title: "Select Char Left",
-    description: "",
+    method: "selectCharLeft: Command",
+    description:
+      "Move the selection head one character to the left, while leaving the anchor in place.",
     run: (view: EditorView) => {
-      selectCharLeft(view)
+      return selectCharLeft(view)
     },
   },
   {
     title: "Cursor Char Right",
-    description: "",
+    method: "cursorCharRight: Command",
+    description: "Move the selection one character to the right.",
     run: (view: EditorView) => {
-      cursorCharRight(view)
+      return cursorCharRight(view)
     },
+    vim: [
+      {
+        mode: "Normal",
+        key: "l",
+      },
+    ],
   },
   {
     title: "Select Char Right",
-    description: "",
+    method: "selectCharRight: Command",
+    description: "Move the selection head one character to the right.",
     run: (view: EditorView) => {
-      selectCharRight(view)
+      return selectCharRight(view)
     },
   },
   {
     title: "Cursor Char Forward",
-    description: "",
+    method: "cursorCharForward: Command",
+    description: "Move the selection one character forward.",
     run: (view: EditorView) => {
-      cursorCharForward(view)
+      return cursorCharForward(view)
     },
   },
   {
     title: "Select Char Forward",
-    description: "",
+    method: "selectCharForward: Command",
+    description: "Move the selection head one character forward.",
     run: (view: EditorView) => {
-      selectCharForward(view)
+      return selectCharForward(view)
     },
   },
   {
     title: "Cursor Char Backward",
-    description: "",
+    method: "cursorCharBackward: Command",
+    description: "Move the selection one character backward.",
     run: (view: EditorView) => {
-      cursorCharBackward(view)
+      return cursorCharBackward(view)
     },
   },
   {
     title: "Select Char Backward",
-    description: "",
+    method: "selectCharBackward: Command",
+    description: "Move the selection head one character backward.",
     run: (view: EditorView) => {
-      selectCharBackward(view)
+      return selectCharBackward(view)
     },
   },
   {
     title: "Cursor Group Left",
-    description: "",
+    method: "cursorGroupLeft: Command",
+    description:
+      "Move the selection to the left across one group of word or non-word (but also non-space) characters.",
     run: (view: EditorView) => {
-      cursorGroupLeft(view)
+      return cursorGroupLeft(view)
     },
   },
   {
     title: "Select Group Left",
-    description: "",
+    method: "selectGroupLeft: Command",
+    description: "Move the selection head one group to the left.",
     run: (view: EditorView) => {
-      selectGroupLeft(view)
+      return selectGroupLeft(view)
     },
   },
   {
     title: "Cursor Group Right",
-    description: "",
+    method: "cursorGroupRight: Command",
+    description: "Move the selection one group to the right.",
     run: (view: EditorView) => {
-      cursorGroupRight(view)
+      return cursorGroupRight(view)
     },
   },
   {
     title: "Select Group Right",
-    description: "",
+    method: "selectGroupRight: Command",
+    description: "Move the selection head one group to the right.",
     run: (view: EditorView) => {
-      selectGroupRight(view)
+      return selectGroupRight(view)
     },
   },
   {
     title: "Cursor Group Forward",
-    description: "",
+    method: "cursorGroupForward: Command",
+    description: "Move the selection one group forward.",
     run: (view: EditorView) => {
-      cursorGroupForward(view)
+      return cursorGroupForward(view)
     },
   },
   {
     title: "Select Group Forward",
-    description: "",
+    method: "selectGroupForward: Command",
+    description: "Move the selection head one group forward.",
     run: (view: EditorView) => {
-      selectGroupForward(view)
+      return selectGroupForward(view)
     },
   },
   {
     title: "Cursor Group Backward",
-    description: "",
+    method: "cursorGroupBackward: Command",
+    description: "Move the selection one group backward.",
     run: (view: EditorView) => {
-      cursorGroupBackward(view)
+      return cursorGroupBackward(view)
     },
   },
   {
     title: "Select Group Backward",
-    description: "",
+    method: "selectGroupBackward: Command",
+    description: "Move the selection head one group backward.",
     run: (view: EditorView) => {
-      selectGroupBackward(view)
+      return selectGroupBackward(view)
     },
   },
   {
     title: "Cursor Subword Forward",
-    description: "",
+    method: "cursorSubwordForward: Command",
+    description: "Move the selection one group or camel-case subword forward.",
     run: (view: EditorView) => {
-      cursorSubwordForward(view)
+      return cursorSubwordForward(view)
     },
   },
   {
     title: "Select Subword Forward",
-    description: "",
+    method: "selectSubwordForward: Command",
+    description:
+      "Move the selection head one group or camel-case subword forward.",
     run: (view: EditorView) => {
-      selectSubwordForward(view)
+      return selectSubwordForward(view)
     },
   },
   {
     title: "Cursor Subword Backward",
-    description: "",
+    method: "cursorSubwordBackward: Command",
+    description: "Move the selection one group or camel-case subword backward.",
     run: (view: EditorView) => {
-      cursorSubwordBackward(view)
+      return cursorSubwordBackward(view)
     },
   },
   {
     title: "Select Subword Backward",
-    description: "",
+    method: "selectSubwordBackward: Command",
+    description: "Move the selection head one group or subword backward.",
     run: (view: EditorView) => {
-      selectSubwordBackward(view)
+      return selectSubwordBackward(view)
     },
   },
   {
     title: "Cursor Line Up",
-    description: "",
+    method: "cursorLineUp: Command",
+    description: "Move the selection one line up.",
     run: (view: EditorView) => {
-      cursorLineUp(view)
+      return cursorLineUp(view)
     },
+    vim: [
+      {
+        mode: "Normal",
+        key: "k",
+      },
+    ],
   },
   {
     title: "Select Line Up",
-    description: "",
+    method: "selectLineUp: Command",
+    description: "Move the selection head one line up.",
     run: (view: EditorView) => {
-      selectLineUp(view)
+      return selectLineUp(view)
     },
   },
   {
     title: "Cursor Line Down",
-    description: "",
+    method: "cursorLineDown: Command",
+    description: "Move the selection one line down.",
     run: (view: EditorView) => {
-      cursorLineDown(view)
+      return cursorLineDown(view)
     },
+    vim: [
+      {
+        mode: "Normal",
+        key: "j",
+      },
+    ],
   },
   {
     title: "Select Line Down",
-    description: "",
+    method: "selectLineDown: Command",
+    description: "Move the selection head one line down.",
     run: (view: EditorView) => {
-      selectLineDown(view)
+      return selectLineDown(view)
     },
   },
   {
     title: "Cursor Page Up",
-    description: "",
+    method: "cursorPageUp: Command",
+    description: "Move the selection one page up.",
     run: (view: EditorView) => {
-      cursorPageUp(view)
+      return cursorPageUp(view)
     },
   },
   {
     title: "Select Page Up",
-    description: "",
+    method: "selectPageUp: Command",
+    description: "Move the selection head one page up.",
     run: (view: EditorView) => {
-      selectPageUp(view)
+      return selectPageUp(view)
     },
   },
   {
     title: "Cursor Page Down",
-    description: "",
+    method: "cursorPageDown: Command",
+    description: "Move the selection one page down.",
     run: (view: EditorView) => {
-      cursorPageDown(view)
+      return cursorPageDown(view)
     },
   },
   {
     title: "Select Page Down",
-    description: "",
+    method: "selectPageDown: Command",
+    description: "Move the selection head one page down.",
     run: (view: EditorView) => {
-      selectPageDown(view)
+      return selectPageDown(view)
     },
   },
   {
     title: "Cursor Line Boundary Forward",
-    description: "",
+    method: "cursorLineBoundaryForward: Command",
+    description:
+      "Move the selection to the next line wrap point, or to the end of the line if there isn't one left on this line.",
     run: (view: EditorView) => {
-      cursorLineBoundaryForward(view)
+      return cursorLineBoundaryForward(view)
     },
   },
   {
     title: "Select Line Boundary Forward",
-    description: "",
+    method: "selectLineBoundaryForward: Command",
+    description: "Move the selection head to the next line boundary.",
     run: (view: EditorView) => {
-      selectLineBoundaryForward(view)
+      return selectLineBoundaryForward(view)
     },
   },
   {
     title: "Cursor Line Boundary Backward",
-    description: "",
+    method: "cursorLineBoundaryBackward: Command",
+    description:
+      "Move the selection to previous line wrap point, or failing that to the start of the line. If the line is indented, and the cursor isn't already at the end of the indentation, this will move to the end of the indentation instead of the start of the line.",
     run: (view: EditorView) => {
-      cursorLineBoundaryBackward(view)
+      return cursorLineBoundaryBackward(view)
     },
   },
   {
     title: "Select Line Boundary Backward",
-    description: "",
+    method: "selectLineBoundaryBackward: Command",
+    description: "Move the selection head to the previous line boundary.",
     run: (view: EditorView) => {
-      selectLineBoundaryBackward(view)
+      return selectLineBoundaryBackward(view)
     },
   },
   {
     title: "Cursor Line Boundary Left",
-    description: "",
+    method: "cursorLineBoundaryLeft: Command",
+    description: "Move the selection one line wrap point to the left.",
     run: (view: EditorView) => {
-      cursorLineBoundaryLeft(view)
+      return cursorLineBoundaryLeft(view)
     },
   },
   {
     title: "Select Line Boundary Left",
-    description: "",
+    method: "selectLineBoundaryLeft: Command",
+    description: "Move the selection head one line boundary to the left.",
     run: (view: EditorView) => {
-      selectLineBoundaryLeft(view)
+      return selectLineBoundaryLeft(view)
     },
   },
   {
     title: "Cursor Line Boundary Right",
-    description: "",
+    method: "cursorLineBoundaryRight: Command",
+    description: "Move the selection one line wrap point to the right.",
     run: (view: EditorView) => {
-      cursorLineBoundaryRight(view)
+      return cursorLineBoundaryRight(view)
     },
   },
   {
     title: "Select Line Boundary Right",
-    description: "",
+    method: "selectLineBoundaryRight: Command",
+    description: "Move the selection head one line boundary to the right.",
     run: (view: EditorView) => {
-      selectLineBoundaryRight(view)
+      return selectLineBoundaryRight(view)
     },
   },
   {
     title: "Cursor Line Start",
-    description: "",
+    method: "cursorLineStart: Command",
+    description: "Move the selection to the start of the line.",
     run: (view: EditorView) => {
-      cursorLineStart(view)
+      return cursorLineStart(view)
     },
   },
   {
     title: "Select Line Start",
-    description: "",
+    method: "selectLineStart: Command",
+    description: "Move the selection head to the start of the line.",
     run: (view: EditorView) => {
-      selectLineStart(view)
+      return selectLineStart(view)
     },
   },
   {
     title: "Cursor Line End",
-    description: "",
+    method: "cursorLineEnd: Command",
+    description: "Move the selection to the end of the line.",
     run: (view: EditorView) => {
-      cursorLineEnd(view)
+      return cursorLineEnd(view)
     },
   },
   {
     title: "Select Line End",
-    description: "",
+    method: "selectLineEnd: Command",
+    description: "Move the selection head to the end of the line.",
     run: (view: EditorView) => {
-      selectLineEnd(view)
+      return selectLineEnd(view)
     },
   },
   {
     title: "Select Line",
-    description: "",
+    method: "selectLine: StateCommand",
+    description: "Expand the selection to cover entire lines.",
     run: (view: EditorView) => {
-      selectLine(view)
+      return selectLine(view)
     },
   },
   {
     title: "Cursor Doc Start",
-    description: "",
+    method: "cursorDocStart: StateCommand",
+    description: "Move the selection to the start of the document.",
     run: (view: EditorView) => {
-      cursorDocStart(view)
+      return cursorDocStart(view)
     },
   },
   {
     title: "Select Doc Start",
-    description: "",
+    method: "selectDocStart: StateCommand",
+    description: "Move the selection head to the start of the document.",
     run: (view: EditorView) => {
-      selectDocStart(view)
+      return selectDocStart(view)
     },
   },
   {
     title: "Cursor Doc End",
-    description: "",
+    method: "cursorDocEnd: StateCommand",
+    description: "Move the selection to the end of the document.",
     run: (view: EditorView) => {
-      cursorDocEnd(view)
+      return cursorDocEnd(view)
     },
   },
   {
     title: "Select Doc End",
-    description: "",
+    method: "selectDocEnd: StateCommand",
+    description: "Move the selection head to the end of the document.",
     run: (view: EditorView) => {
-      selectDocEnd(view)
+      return selectDocEnd(view)
     },
   },
   {
     title: "Select All",
-    description: "",
+    method: "selectAll: StateCommand",
+    description: "Select the entire document.",
     run: (view: EditorView) => {
-      selectAll(view)
+      return selectAll(view)
     },
   },
   {
     title: "Cursor Syntax Left",
-    description: "",
+    method: "cursorSyntaxLeft: Command",
+    description: "Move the cursor over the next syntactic element to the left.",
     run: (view: EditorView) => {
-      cursorSyntaxLeft(view)
+      return cursorSyntaxLeft(view)
     },
   },
   {
     title: "Select Syntax Left",
-    description: "",
+    method: "selectSyntaxLeft: Command",
+    description:
+      "Move the selection head over the next syntactic element to the left.",
     run: (view: EditorView) => {
-      selectSyntaxLeft(view)
+      return selectSyntaxLeft(view)
     },
   },
   {
     title: "Cursor Syntax Right",
-    description: "",
+    method: "cursorSyntaxRight: Command",
+    description:
+      "Move the cursor over the next syntactic element to the right.",
     run: (view: EditorView) => {
-      cursorSyntaxRight(view)
+      return cursorSyntaxRight(view)
     },
   },
   {
     title: "Select Syntax Right",
-    description: "",
+    method: "selectSyntaxRight: Command",
+    description:
+      "Move the selection head over the next syntactic element to the right.",
     run: (view: EditorView) => {
-      selectSyntaxRight(view)
+      return selectSyntaxRight(view)
     },
   },
   {
     title: "Select Parent Syntax",
-    description: "",
+    method: "selectParentSyntax: StateCommand",
+    description:
+      "Select the next syntactic construct that is larger than the selection. Note that this will only work insofar as the language provider you use builds up a full syntax tree.",
     run: (view: EditorView) => {
-      selectParentSyntax(view)
+      return selectParentSyntax(view)
     },
   },
   {
     title: "Cursor Matching Bracket",
-    description: "",
+    method: "cursorMatchingBracket: StateCommand",
+    description:
+      "Move the selection to the bracket matching the one it is currently on, if any.",
     run: (view: EditorView) => {
-      cursorMatchingBracket(view)
+      return cursorMatchingBracket(view)
     },
   },
   {
     title: "Select Matching Bracket",
-    description: "",
+    method: "selectMatchingBracket: StateCommand",
+    description:
+      "Extend the selection to the bracket matching the one the selection head is currently on, if any.",
     run: (view: EditorView) => {
-      selectMatchingBracket(view)
+      return selectMatchingBracket(view)
     },
   },
   {
     title: "Delete Char Backward",
-    description: "",
+    method: "deleteCharBackward: Command",
+    description:
+      "Delete the selection, or, for cursor selections, the character before the cursor.",
     run: (view: EditorView) => {
-      deleteCharBackward(view)
+      return deleteCharBackward(view)
     },
   },
   {
     title: "Delete Char Forward",
-    description: "",
+    method: "deleteCharForward: Command",
+    description: "Delete the selection or the character after the cursor.",
     run: (view: EditorView) => {
-      deleteCharForward(view)
+      return deleteCharForward(view)
     },
   },
   {
     title: "Delete Group Backward",
-    description: "",
+    method: "deleteGroupBackward: StateCommand",
+    description:
+      "Delete the selection or backward until the end of the next group, only skipping groups of whitespace when they consist of a single space.",
     run: (view: EditorView) => {
-      deleteGroupBackward(view)
+      return deleteGroupBackward(view)
     },
   },
   {
     title: "Delete Group Forward",
-    description: "",
+    method: "deleteGroupForward: StateCommand",
+    description:
+      "Delete the selection or forward until the end of the next group.",
     run: (view: EditorView) => {
-      deleteGroupForward(view)
+      return deleteGroupForward(view)
     },
   },
   {
     title: "Delete To Line Start",
-    description: "",
+    method: "deleteToLineStart: Command",
+    description:
+      "Delete the selection, or, if it is a cursor selection, delete to the start of the line. If the cursor is directly at the start of the line, delete the line break before it.",
     run: (view: EditorView) => {
-      deleteToLineStart(view)
+      return deleteToLineStart(view)
     },
   },
   {
     title: "Delete To Line End",
-    description: "",
+    method: "deleteToLineEnd: Command",
+    description:
+      "Delete the selection, or, if it is a cursor selection, delete to the end of the line. If the cursor is directly at the end of the line, delete the line break after it.",
     run: (view: EditorView) => {
-      deleteToLineEnd(view)
+      return deleteToLineEnd(view)
     },
   },
   {
     title: "Delete Trailing Whitespace",
-    description: "",
+    method: "deleteTrailingWhitespace: StateCommand",
+    description:
+      "Delete all whitespace directly before a line end from the document.",
     run: (view: EditorView) => {
-      deleteTrailingWhitespace(view)
+      return deleteTrailingWhitespace(view)
     },
   },
   {
     title: "Split Line",
-    description: "",
+    method: "splitLine: StateCommand",
+    description:
+      "Replace each selection range with a line break, leaving the cursor on the line before the break.",
     run: (view: EditorView) => {
-      splitLine(view)
+      return splitLine(view)
     },
   },
   {
     title: "Move Line Up",
-    description: "",
+    method: "moveLineUp: StateCommand",
+    description: "Move the selected lines up one line.",
     run: (view: EditorView) => {
-      moveLineUp(view)
+      return moveLineUp(view)
     },
   },
   {
     title: "Move Line Down",
-    description: "",
+    method: "moveLineDown: StateCommand",
+    description: "Move the selected lines down one line.",
     run: (view: EditorView) => {
-      moveLineDown(view)
+      return moveLineDown(view)
     },
   },
   {
     title: "copyLineUp",
-    description: "",
+    method: "copyLineUp: StateCommand",
+    description:
+      "Create a copy of the selected lines. Keep the selection in the top copy.",
     run: (view: EditorView) => {
-      copyLineUp(view)
+      return copyLineUp(view)
     },
   },
   {
     title: "Copy Line Down",
-    description: "",
+    method: "copyLineDown: StateCommand",
+    description:
+      "Create a copy of the selected lines. Keep the selection in the bottom copy.",
     run: (view: EditorView) => {
-      copyLineDown(view)
+      return copyLineDown(view)
     },
   },
   {
     title: "Delete Line",
-    description: "",
+    method: "deleteLine: Command",
+    description: "Delete selected lines.",
     run: (view: EditorView) => {
-      deleteLine(view)
+      return deleteLine(view)
     },
   },
   {
     title: "Indent Selection",
-    description: "",
+    method: "indentSelection: StateCommand",
+    description:
+      "Auto-indent the selected lines. This uses the indentation service facet as source for auto-indent information.",
     run: (view: EditorView) => {
-      indentSelection(view)
+      return indentSelection(view)
     },
   },
   {
     title: "Indent More",
-    description: "",
+    method: "indentMore: StateCommand",
+    description: "Add a unit of indentation to all selected lines.",
     run: (view: EditorView) => {
-      indentMore(view)
+      return indentMore(view)
     },
   },
   {
     title: "Indent Less",
-    description: "",
+    method: "indentLess: StateCommand",
+    description: "Remove a unit of indentation from all selected lines.",
     run: (view: EditorView) => {
-      indentLess(view)
+      return indentLess(view)
     },
   },
   {
     title: "Insert Tab",
-    description: "",
+    method: "insertTab: StateCommand",
+    description:
+      "Insert a tab character at the cursor or, if something is selected, use indentMore to indent the entire selection.",
     run: (view: EditorView) => {
-      insertTab(view)
+      return insertTab(view)
     },
   },
   {
     title: "Transpose Chars",
-    description: "",
+    method: "transposeChars: StateCommand",
+    description: "Flip the characters before and after the cursor(s).",
     run: (view: EditorView) => {
-      transposeChars(view)
+      return transposeChars(view)
     },
   },
   {
     title: "Insert Newline",
-    description: "",
+    method: "insertNewline: StateCommand",
+    description: "Replace the selection with a newline.",
     run: (view: EditorView) => {
-      insertNewline(view)
+      return insertNewline(view)
     },
   },
   {
     title: "Insert Newline And Indent",
-    description: "",
+    method: "insertNewlineAndIndent: StateCommand",
+    description:
+      "Replace the selection with a newline and indent the newly created line(s). If the current line consists only of whitespace, this will also delete that whitespace. When the cursor is between matching brackets, an additional newline will be inserted after the cursor.",
     run: (view: EditorView) => {
-      insertNewlineAndIndent(view)
+      return insertNewlineAndIndent(view)
     },
   },
   {
     title: "Insert BlankLine",
-    description: "",
+    method: "insertBlankLine: StateCommand",
+    description: "Create a blank, indented line below the current line.",
     run: (view: EditorView) => {
-      insertBlankLine(view)
+      return insertBlankLine(view)
     },
   },
   {
     title: "Undo",
-    description: "",
+    method: "undo: StateCommand",
+    description:
+      "Undo a single group of history events. Returns false if no group was available.",
     run: (view: EditorView) => {
-      undo(view)
+      return undo(view)
     },
   },
   {
     title: "Redo",
-    description: "",
+    method: "redo: StateCommand",
+    description:
+      "Redo a group of history events. Returns false if no group was available.",
     run: (view: EditorView) => {
-      redo(view)
+      return redo(view)
     },
   },
   {
     title: "Undo Selection",
-    description: "",
+    method: "undoSelection: StateCommand",
+    description: "Undo a change or selection change.",
     run: (view: EditorView) => {
-      undoSelection(view)
+      return undoSelection(view)
     },
   },
   {
     title: "Redo Selection",
-    description: "",
+    method: "redoSelection: StateCommand",
+    description: "Redo a change or selection change.",
     run: (view: EditorView) => {
-      redoSelection(view)
+      return redoSelection(view)
     },
   },
   {
     title: "Toggle Comment",
-    description: "",
+    method: "toggleComment: StateCommand",
+    description:
+      "Comment or uncomment the current selection. Will use line comments if available, otherwise falling back to block comments.",
     run: (view: EditorView) => {
-      toggleComment(view)
+      return toggleComment(view)
     },
   },
   {
     title: "Toggle Line Comment",
-    description: "",
+    method: "toggleLineComment: StateCommand",
+    description:
+      "Comment or uncomment the current selection using line comments. The line comment syntax is taken from the commentTokens language data.",
     run: (view: EditorView) => {
-      toggleLineComment(view)
+      return toggleLineComment(view)
     },
   },
   {
     title: "Line Comment",
-    description: "",
+    method: "lineComment: StateCommand",
+    description: "Comment the current selection using line comments.",
     run: (view: EditorView) => {
-      lineComment(view)
+      return lineComment(view)
     },
   },
   {
     title: "Line Uncomment",
-    description: "",
+    method: "lineUncomment: StateCommand",
+    description: "Uncomment the current selection using line comments.",
     run: (view: EditorView) => {
-      lineUncomment(view)
+      return lineUncomment(view)
     },
   },
   {
     title: "Toggle Block Comment",
-    description: "",
+    method: "toggleBlockComment: StateCommand",
+    description:
+      "Comment or uncomment the current selection using block comments. The block comment syntax is taken from the commentTokens language data.",
     run: (view: EditorView) => {
-      toggleBlockComment(view)
+      return toggleBlockComment(view)
     },
   },
   {
     title: "Block Comment",
-    description: "",
+    method: "blockComment: StateCommand",
+    description: "Comment the current selection using block comments.",
     run: (view: EditorView) => {
-      blockComment(view)
+      return blockComment(view)
     },
   },
   {
     title: "Block Uncomment",
-    description: "",
+    method: "blockUncomment: StateCommand",
+    description: "Uncomment the current selection using block comments.",
     run: (view: EditorView) => {
-      blockUncomment(view)
+      return blockUncomment(view)
     },
   },
   {
     title: "Toggle Block Comment By Line",
-    description: "",
+    method: "toggleBlockCommentByLine: StateCommand",
+    description:
+      "Comment or uncomment the lines around the current selection using block comments.",
     run: (view: EditorView) => {
-      toggleBlockCommentByLine(view)
+      return toggleBlockCommentByLine(view)
     },
   },
 ]
