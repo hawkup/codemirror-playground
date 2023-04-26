@@ -89,6 +89,8 @@ import {
 } from "@codemirror/commands"
 import type { Command as CMCommand, EditorView } from "@codemirror/view"
 
+import { vimCompartment, vimConfig } from "@/lib/vim"
+
 type VimMode = "Normal" | "Insert" | "Visual" | "Visual Block" | "Visual Line"
 
 export type Command = {
@@ -98,21 +100,11 @@ export type Command = {
   run: CMCommand
   vim?: {
     mode: VimMode
-    key: string
+    keys: string[]
   }[]
 }
 
-export const commands: Command[] = [
-  {
-    title: "Insert Text",
-    description: "",
-    run: (view: EditorView, text: string = "Hello World") => {
-      view.dispatch({
-        changes: { from: view.state.selection.main.head, insert: text },
-      })
-      return true
-    },
-  },
+export const defaultCommands: Command[] = [
   {
     title: "Simplify Selection",
     method: "simplifySelection: StateCommand",
@@ -133,7 +125,7 @@ export const commands: Command[] = [
     vim: [
       {
         mode: "Normal",
-        key: "h",
+        keys: ["h"],
       },
     ],
   },
@@ -156,7 +148,7 @@ export const commands: Command[] = [
     vim: [
       {
         mode: "Normal",
-        key: "l",
+        keys: ["l"],
       },
     ],
   },
@@ -308,7 +300,7 @@ export const commands: Command[] = [
     vim: [
       {
         mode: "Normal",
-        key: "k",
+        keys: ["k"],
       },
     ],
   },
@@ -330,7 +322,7 @@ export const commands: Command[] = [
     vim: [
       {
         mode: "Normal",
-        key: "j",
+        keys: ["j"],
       },
     ],
   },
@@ -865,3 +857,156 @@ export const commands: Command[] = [
     },
   },
 ]
+
+export const customCommands: Command[] = [
+  {
+    title: "Insert Text",
+    description: "",
+    run: (view: EditorView, text: string = "Hello World") => {
+      view.dispatch({
+        changes: { from: view.state.selection.main.head, insert: text },
+      })
+      return true
+    },
+  },
+  {
+    title: "Change Vim Mode To Normal Mode",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Normal")
+
+      return true
+    },
+  },
+  {
+    title: "Change Vim Mode To Insert Mode",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Insert")
+
+      return true
+    },
+  },
+  {
+    title: "Change Vim Mode To Visual Mode",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Visual")
+
+      return true
+    },
+  },
+  {
+    title: "Change Vim Mode To Visual Block Mode",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Visual Block")
+
+      return true
+    },
+  },
+  {
+    title: "Change Vim Mode To Visual Line Mode",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Visual Line")
+
+      return true
+    },
+  },
+  {
+    title: "Command Esc",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Normal")
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["Escape", "Ctrl-c", "Ctrl-["],
+      },
+      {
+        mode: "Insert",
+        keys: ["Escape", "Ctrl-c", "Ctrl-["],
+      },
+      {
+        mode: "Visual",
+        keys: ["Escape", "Ctrl-c", "Ctrl-["],
+      },
+      {
+        mode: "Visual Block",
+        keys: ["Escape", "Ctrl-c", "Ctrl-["],
+      },
+      {
+        mode: "Visual Line",
+        keys: ["Escape", "Ctrl-c", "Ctrl-["],
+      },
+    ],
+  },
+  {
+    title: "Command Insert At Cursor",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Insert")
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["i", "Insert"],
+      },
+    ],
+  },
+  {
+    title: "Command Insert After Cursor",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Insert")
+      cursorCharForward(view)
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["a"],
+      },
+    ],
+  },
+  {
+    title: "Command Insert At Line End",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Insert")
+      cursorLineEnd(view)
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["A"],
+      },
+    ],
+  },
+]
+
+export const commands: Command[] = [...defaultCommands, ...customCommands]
+
+function changeVimMode(view: EditorView, mode: VimMode) {
+  const config = view.state.facet(vimConfig)
+
+  view.dispatch({
+    effects: [
+      vimCompartment.reconfigure(
+        vimConfig.of({
+          ...config,
+          mode,
+        })
+      ),
+    ],
+  })
+}

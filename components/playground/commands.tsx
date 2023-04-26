@@ -167,12 +167,17 @@ function CommandItem({ hits }) {
               <span className="text-sm underline">Vim</span>
 
               {hit.document.vim.map((vim) => (
-                <div key={vim.key} className="flex space-x-2">
+                <div key={vim.mode} className="flex space-x-2">
                   <span className="text-sm">{vim.mode} Mode</span>
-                  <div className="flex">
-                    <kbd className="rounded bg-slate-700 px-2 text-sm font-bold text-white">
-                      {vim.key}
-                    </kbd>
+                  <div className="flex space-x-1">
+                    {vim.keys.map((key) => (
+                      <kbd
+                        key={key}
+                        className="rounded bg-slate-700 px-2 text-sm font-bold text-white"
+                      >
+                        {key}
+                      </kbd>
+                    ))}
                   </div>
                 </div>
               ))}

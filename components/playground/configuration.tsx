@@ -31,11 +31,13 @@ export function Configuration() {
           id="vim-mode"
           checked={view?.state.facet(vimConfig).enabled ?? false}
           onCheckedChange={(checked) => {
-            const conf = checked
-              ? vimConfig.of({ enabled: true })
-              : vimConfig.of({ enabled: false })
+            const config = view.state.facet(vimConfig)
+
+            const newConfig = checked
+              ? vimConfig.of({ ...config, enabled: true })
+              : vimConfig.of({ ...config, enabled: false })
             view.dispatch({
-              effects: vimCompartment.reconfigure(conf),
+              effects: vimCompartment.reconfigure(newConfig),
             })
           }}
         />

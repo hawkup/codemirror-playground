@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
+import { useToast } from "@/hooks/use-toast"
 import { javascript } from "@codemirror/lang-javascript"
 import { Compartment } from "@codemirror/state"
 import { ViewUpdate, keymap, type KeyBinding } from "@codemirror/view"
@@ -12,7 +13,7 @@ import { drawCursor } from "@/lib/cursor-layer"
 import { vim, vimConfig } from "@/lib/vim"
 
 const theme = EditorView.theme({
-  ".cm-content": {
+  ".cm-scroller": {
     height: "300px",
   },
 })
@@ -21,28 +22,40 @@ export const lineWrapping = new Compartment()
 
 const keys = [] as KeyBinding[]
 
-for (const command of commands) {
-  if (command.vim) {
-    for (const vim of command.vim) {
-      keys.push({
-        key: vim.key,
-        run: (view) => {
-          const { enabled } = view.state.facet(vimConfig)
-
-          if (!enabled) return false
-
-          command.run(view)
-
-          return true
-        },
-      })
-    }
-  }
-}
-
 export function OutputEditor() {
   const container = React.useRef()
   const { setView, setState } = useOutputEditor(EDITOR_NAME)
+  const { toast } = useToast()
+
+  React.useEffect(() => {
+    for (const command of commands) {
+      if (command.vim) {
+        for (const vim of command.vim) {
+          for (const key of vim.keys) {
+            keys.push({
+              key,
+              run: (view) => {
+                const { enabled, mode } = view.state.facet(vimConfig)
+
+                if (!enabled) return false
+
+                if (mode !== vim.mode) return false
+
+                toast({
+                  title: `Run ${command.title}`,
+                  description: `Pressed: ${key}`,
+                })
+
+                command.run(view)
+
+                return true
+              },
+            })
+          }
+        }
+      }
+    }
+  }, [toast])
 
   React.useEffect(() => {
     const view = new EditorView({
