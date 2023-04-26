@@ -3,7 +3,9 @@
 import * as React from "react"
 import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
 import { useToast } from "@/hooks/use-toast"
+import { history } from "@codemirror/commands"
 import { javascript } from "@codemirror/lang-javascript"
+import { defaultHighlightStyle, syntaxHighlighting } from "@codemirror/language"
 import { Compartment } from "@codemirror/state"
 import { ViewUpdate, keymap, type KeyBinding } from "@codemirror/view"
 import { EditorView, basicSetup } from "codemirror"
@@ -41,6 +43,16 @@ export function OutputEditor() {
 
                 if (mode !== vim.mode) return false
 
+                if (command.run === false) {
+                  toast({
+                    title: `No Implement ${command.title}`,
+                    description: `Pressed: ${key}`,
+                    variant: "destructive",
+                  })
+
+                  return true
+                }
+
                 toast({
                   title: `Run ${command.title}`,
                   description: `Pressed: ${key}`,
@@ -59,26 +71,30 @@ export function OutputEditor() {
 
   React.useEffect(() => {
     const view = new EditorView({
-      doc: `import Image from "next/image"
+      doc: `app.get('/auth', (req, res) => {
+  let username = req.query.username || '';
+  const password = req.query.password || '';
 
-import { AspectRatio } from "@/components/ui/aspect-ratio"
+  username = username.replace(/[!@#$%^&*]/g, '');
 
-export function AspectRatioDemo() {
-  return (
-    <AspectRatio ratio={16 / 9} className="bg-slate-50 dark:bg-slate-800">
-      <Image
-        src="https://images.unsplash.com/photo-1576075796033-848c2a5f3696?w=800&dpr=2&q=80"
-        alt="Photo by Alvaro Pinot"
-        fill
-        className="rounded-md object-cover"
-      />
-    </AspectRatio>
-  )
-}`,
+  if (!username || !password || !users[username]) {
+    return res.sendStatus(400);
+  }
+
+  const { salt, hash } = users[username];
+  const encryptHash = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512');
+
+  if (crypto.timingSafeEqual(hash, encryptHash)) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(401);
+  }
+});`,
       extensions: [
         theme,
         drawCursor(),
-        basicSetup,
+        history(),
+        syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
         javascript(),
         lineWrapping.of([]),
         vim(),

@@ -7,6 +7,9 @@ dependencies:
   '@codemirror/lang-javascript':
     specifier: ^6.1.5
     version: 6.1.7
+  '@codemirror/language':
+    specifier: ^6.6.0
+    version: 6.6.0
   '@codemirror/state':
     specifier: ^6.2.0
     version: 6.2.0

@@ -97,7 +97,7 @@ export type Command = {
   title: string
   method?: string
   description: string
-  run: CMCommand
+  run: CMCommand | false
   vim?: {
     mode: VimMode
     keys: string[]
@@ -913,6 +913,205 @@ export const customCommands: Command[] = [
 
       return true
     },
+  },
+  {
+    title: "Command Undo",
+    description: "",
+    run: (view) => {
+      undo(view)
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["u"],
+      },
+    ],
+  },
+  {
+    title: "Command Undo On Line",
+    description: "",
+    run: false,
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["U"],
+      },
+    ],
+  },
+  {
+    title: "Command Redo",
+    description: "",
+    run: (view) => {
+      redo(view)
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["Ctrl-r"],
+      },
+    ],
+  },
+  {
+    title: "Command Delete To Line End",
+    description: "",
+    run: false,
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["D"],
+      },
+    ],
+  },
+  {
+    title: "Command Yank Full Line",
+    description: "",
+    run: false,
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["Y"],
+      },
+    ],
+  },
+  {
+    title: "Command Change To Line End",
+    description: "",
+    run: false,
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["C"],
+      },
+    ],
+  },
+  {
+    title: "Command Clear Line",
+    description: "",
+    run: false,
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["S"],
+      },
+    ],
+  },
+  {
+    title: "Command Exit Visual Mode",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Normal")
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Visual",
+        keys: ["v"],
+      },
+    ],
+  },
+  {
+    title: "Command Visual Mode",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Visual")
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["v"],
+      },
+      {
+        mode: "Visual Line",
+        keys: ["v"],
+      },
+      {
+        mode: "Visual Block",
+        keys: ["v"],
+      },
+    ],
+  },
+  {
+    title: "Command Visual Block Mode",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Visual Block")
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["Ctrl-v", "Ctrl-q"],
+      },
+      {
+        mode: "Visual",
+        keys: ["Ctrl-v", "Ctrl-q"],
+      },
+      {
+        mode: "Visual Line",
+        keys: ["Ctrl-v", "Ctrl-q"],
+      },
+    ],
+  },
+  {
+    title: "Command Exit Visual Block Mode",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Normal")
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Visual Block",
+        keys: ["Ctrl-v", "Ctrl-q"],
+      },
+    ],
+  },
+  {
+    title: "Command Visual Line Mode",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Visual Line")
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Normal",
+        keys: ["V"],
+      },
+      {
+        mode: "Visual",
+        keys: ["V"],
+      },
+      {
+        mode: "Visual Block",
+        keys: ["V"],
+      },
+    ],
+  },
+  {
+    title: "Command Exit Visual Line Mode",
+    description: "",
+    run: (view) => {
+      changeVimMode(view, "Normal")
+
+      return true
+    },
+    vim: [
+      {
+        mode: "Visual Line",
+        keys: ["V"],
+      },
+    ],
   },
   {
     title: "Command Esc",
