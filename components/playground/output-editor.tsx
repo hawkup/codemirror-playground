@@ -31,7 +31,9 @@ for (const command of commands) {
 
           if (!enabled) return false
 
-          return command.run(view)
+          command.run(view)
+
+          return true
         },
       })
     }
