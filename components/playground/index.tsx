@@ -5,6 +5,7 @@ import { EditorView } from "@codemirror/view"
 
 import { Commands } from "@/components/playground/commands"
 import { Configuration } from "@/components/playground/configuration"
+import { KeyLogs } from "@/components/playground/key-logs"
 import { OutputEditor } from "@/components/playground/output-editor"
 import { State } from "@/components/playground/state"
 
@@ -20,8 +21,9 @@ export function Playground() {
       setView={setView}
     >
       <div className="flex space-x-8 pt-8">
-        <div className="flex flex-col space-y-8">
+        <div className="flex flex-col space-y-4">
           <OutputEditor />
+          <KeyLogs />
           <State />
           <Configuration />
         </div>
