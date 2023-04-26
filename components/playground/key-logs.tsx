@@ -27,18 +27,21 @@ export function KeyLogs() {
   }, [keys])
 
   return (
-    <div
-      ref={ref}
-      className="flex h-10 w-[500px] items-center space-x-1 overflow-x-auto"
-    >
-      {keys.map((key) => (
-        <kbd
-          key={key.id}
-          className="rounded bg-slate-700 px-2 text-sm font-bold text-white"
-        >
-          {key.key}
-        </kbd>
-      ))}
+    <div>
+      <p className="text-xs">Key Down</p>
+      <div
+        ref={ref}
+        className="flex h-10 w-[500px] items-center space-x-1 overflow-x-auto"
+      >
+        {keys.map((key) => (
+          <kbd
+            key={key.id}
+            className="rounded bg-slate-700 px-2 text-sm font-bold text-white"
+          >
+            {key.key}
+          </kbd>
+        ))}
+      </div>
     </div>
   )
 }
