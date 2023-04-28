@@ -64,7 +64,7 @@ export function Commands() {
     <div className="space-y-4">
       <Input placeholder="search command" onChange={onSearch} />
 
-      <div className="relative overflow-hidden rounded border border-slate-100">
+      <div className="relative overflow-hidden rounded border border-slate-100 shadow-sm">
         <ScrollArea className="h-[800px] rounded-md">
           {hits.length ? <CommandItem hits={hits} /> : null}
         </ScrollArea>

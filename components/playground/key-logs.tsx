@@ -33,14 +33,16 @@ export function KeyLogs() {
         ref={ref}
         className="flex h-10 w-[500px] items-center space-x-1 overflow-x-auto"
       >
-        {keys.map((key) => (
+        {
+        keys.length ?
+        keys.map((key) => (
           <kbd
             key={key.id}
             className="rounded bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground"
           >
             {key.key}
           </kbd>
-        ))}
+        )) : <span className="text-muted-foreground text-xs">no key down</span>}
       </div>
     </div>
   )
