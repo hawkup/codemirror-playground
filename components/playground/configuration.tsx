@@ -1,15 +1,15 @@
 "use client"
 
-import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
+import { EDITOR_NAME, useEditor } from "@/context/editor-context"
 import { EditorView } from "@codemirror/view"
 
 import { vimCompartment, vimConfig } from "@/lib/vim"
-import { lineWrapping } from "@/components/playground/output-editor"
+import { lineWrapping } from "@/components/playground/editor"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 
 export function Configuration() {
-  const { view } = useOutputEditor(EDITOR_NAME)
+  const { view } = useEditor(EDITOR_NAME)
 
   return (
     <div className="flex flex-col space-y-8">

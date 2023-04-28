@@ -1,8 +1,8 @@
 import * as React from "react"
-import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
+import { EDITOR_NAME, useEditor } from "@/context/editor-context"
 
 export function KeyLogs() {
-  const { view } = useOutputEditor(EDITOR_NAME)
+  const { view } = useEditor(EDITOR_NAME)
   const [keys, setKeys] = React.useState<{ id: number; key: string }[]>([])
   const ref = React.useRef<HTMLDivElement>()
 

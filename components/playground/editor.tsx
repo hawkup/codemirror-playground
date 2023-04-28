@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
+import { EDITOR_NAME, useEditor } from "@/context/editor-context"
 import { useToast } from "@/hooks/use-toast"
 import { history } from "@codemirror/commands"
 import { javascript } from "@codemirror/lang-javascript"
@@ -24,9 +24,9 @@ export const lineWrapping = new Compartment()
 
 const keys = [] as KeyBinding[]
 
-export function OutputEditor() {
+export function Editor() {
   const container = React.useRef<HTMLDivElement>()
-  const { setView, setState } = useOutputEditor(EDITOR_NAME)
+  const { setView, setState } = useEditor(EDITOR_NAME)
   const { toast } = useToast()
 
   React.useEffect(() => {

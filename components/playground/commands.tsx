@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
+import { EDITOR_NAME, useEditor } from "@/context/editor-context"
 import { Results, create, insertMultiple } from "@orama/orama"
 import {
   Position,
@@ -148,7 +148,7 @@ function HighlightedDocument({ hit, trim = 200 }) {
 }
 
 function CommandItem({ hits }) {
-  const { view } = useOutputEditor(EDITOR_NAME)
+  const { view } = useEditor(EDITOR_NAME)
 
   const run = (hit) => {
     view.focus()

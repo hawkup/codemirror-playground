@@ -5,14 +5,14 @@ import { createContext } from "@/lib/context"
 
 export const EDITOR_NAME = "OutputEditor"
 
-export type OutputEditorContextValue = {
+export type EditorContextValue = {
   state: EditorState
   setState: React.Dispatch<React.SetStateAction<EditorState>>
   view: EditorView
   setView: React.Dispatch<React.SetStateAction<EditorView>>
 }
 
-const [OutputEditorProvider, useOutputEditor] =
-  createContext<OutputEditorContextValue>(EDITOR_NAME)
+const [EditorProvider, useEditor] =
+  createContext<EditorContextValue>(EDITOR_NAME)
 
-export { OutputEditorProvider, useOutputEditor }
+export { EditorProvider, useEditor }

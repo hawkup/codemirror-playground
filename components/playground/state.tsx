@@ -1,12 +1,12 @@
 "use client"
 
-import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
+import { EDITOR_NAME, useEditor } from "@/context/editor-context"
 
 import { vimConfig } from "@/lib/vim"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export function State() {
-  const { state } = useOutputEditor(EDITOR_NAME)
+  const { state } = useEditor(EDITOR_NAME)
 
   return state ? (
     <div className="flex flex-col">
