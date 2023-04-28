@@ -1,5 +1,6 @@
 "use client"
 
+import { Skeleton } from "@/components/ui/skeleton"
 import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
 
 import { vimConfig } from "@/lib/vim"
@@ -36,5 +37,31 @@ export function State() {
         </div>
       </div>
     </div>
-  ) : null
+  ) : <Loading />
+}
+
+function Loading() {
+  return (
+    <>
+      <Skeleton className="h-10 w-[100px]" />
+
+      <div className="space-y-2">
+        <Skeleton className="h-6 w-[250px]" />
+        <Skeleton className="h-2 w-[150px]" />
+        <Skeleton className="h-2 w-[150px]" />
+      </div>
+
+      <div className="space-y-2">
+        <Skeleton className="h-6 w-[250px]" />
+        <Skeleton className="h-2 w-[150px]" />
+        <Skeleton className="h-2 w-[150px]" />
+      </div>
+
+      <div className="space-y-2">
+        <Skeleton className="h-6 w-[250px]" />
+        <Skeleton className="h-2 w-[150px]" />
+        <Skeleton className="h-2 w-[150px]" />
+      </div>
+    </>
+  )
 }
