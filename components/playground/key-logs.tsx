@@ -11,7 +11,7 @@ export function KeyLogs() {
       setKeys((prev) => {
         const id = prev.length
 
-        return [...prev, { id, key: ev.key }]
+        return [...prev, { id, key: ev.code }]
       })
     }
 
@@ -36,7 +36,7 @@ export function KeyLogs() {
         {keys.map((key) => (
           <kbd
             key={key.id}
-            className="rounded bg-secondary px-2 text-sm font-medium text-secondary-foreground"
+            className="rounded bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground"
           >
             {key.key}
           </kbd>
