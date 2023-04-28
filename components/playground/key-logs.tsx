@@ -36,7 +36,7 @@ export function KeyLogs() {
         {keys.map((key) => (
           <kbd
             key={key.id}
-            className="rounded bg-slate-700 px-2 text-sm font-bold text-white"
+            className="rounded bg-secondary px-2 text-sm font-medium text-secondary-foreground"
           >
             {key.key}
           </kbd>

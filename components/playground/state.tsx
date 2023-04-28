@@ -13,8 +13,8 @@ export function State() {
         State
       </h2>
       <div>
-        <p className="mt-2 font-semibold">Selection Ranges</p>
-        <ol className="list-decimal">
+        <p className="mt-3 font-medium">Selection Ranges</p>
+        <ol className="list-decimal text-muted-foreground">
           {state.selection.ranges.map((range) => (
             <li key={`${range.anchor}-${range.head}`} className="ml-6">
               <p>anchor: {range.anchor}</p>
@@ -23,14 +23,14 @@ export function State() {
           ))}
         </ol>
 
-        <p className="mt-2 font-semibold">Selection Main</p>
-        <div>
+        <p className="mt-3 font-medium">Selection Main</p>
+        <div className="text-muted-foreground">
           <p>anchor: {state.selection.main.anchor}</p>
           <p>head: {state.selection.main.head}</p>
         </div>
 
-        <p className="mt-2 font-semibold">Vim</p>
-        <div>
+        <p className="mt-3 font-medium">Vim</p>
+        <div className="text-muted-foreground">
           <p>enabled: {state.facet(vimConfig).enabled ? "true" : "false"}</p>
           <p>mode: {state.facet(vimConfig).mode}</p>
         </div>

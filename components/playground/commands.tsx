@@ -10,9 +10,11 @@ import {
 } from "@orama/plugin-match-highlight"
 
 import { commands } from "@/lib/commands"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Separator } from "@/components/ui/separator"
 
 let db
 
@@ -62,7 +64,7 @@ export function Commands() {
     <div className="space-y-4">
       <Input placeholder="search command" onChange={onSearch} />
 
-      <div className="relative overflow-hidden border border-slate-100">
+      <div className="relative overflow-hidden rounded border border-slate-100">
         <ScrollArea className="h-[800px] rounded-md">
           {hits.length ? <CommandItem hits={hits} /> : null}
         </ScrollArea>
@@ -160,20 +162,41 @@ function CommandItem({ hits }) {
               </Button>
             </div>
           </div>
-          <p className="text-sm font-semibold">{hit.document.method}</p>
-          <p className="text-sm">{hit.document.description}</p>
+          <p className="text-sm font-medium text-muted-foreground">
+            {hit.document.method}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {hit.document.description}
+          </p>
+
+          {hit.document.categories?.length ? (
+            <div className="mt-2 flex">
+              {hit.document.categories?.map((category) => (
+                <Badge key={category} variant="outline">
+                  {category}
+                </Badge>
+              ))}
+            </div>
+          ) : null}
+
           {hit.document.vim ? (
-            <div className="mt-4">
-              <span className="text-sm underline">Vim</span>
+            <>
+              <Separator className="my-4" />
+              <span className="text-sm underline text-muted-foreground">
+                Vim
+              </span>
 
               {hit.document.vim.map((vim) => (
-                <div key={vim.mode} className="flex space-x-2">
+                <div
+                  key={vim.mode}
+                  className="flex space-x-2 text-muted-foreground"
+                >
                   <span className="text-sm">{vim.mode} Mode</span>
                   <div className="flex space-x-1">
                     {vim.keys.map((key) => (
                       <kbd
                         key={key}
-                        className="rounded bg-slate-700 px-2 text-sm font-bold text-white"
+                        className="rounded bg-secondary px-2 text-sm text-secondary-foreground"
                       >
                         {key}
                       </kbd>
@@ -181,7 +204,7 @@ function CommandItem({ hits }) {
                   </div>
                 </div>
               ))}
-            </div>
+            </>
           ) : null}
         </div>
       ))}

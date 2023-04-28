@@ -7,9 +7,16 @@ import {
 } from "@codemirror/state"
 import { EditorView, RectangleMarker, layer } from "@codemirror/view"
 
-type VimConfig = {
+export type VimMode =
+  | "Normal"
+  | "Insert"
+  | "Visual"
+  | "Visual Block"
+  | "Visual Line"
+
+export type VimConfig = {
   enabled?: boolean
-  mode?: "Normal" | "Insert" | "Visual" | "Visual Block" | "Visual Line"
+  mode?: VimMode
 }
 
 export const vimCompartment = new Compartment()
