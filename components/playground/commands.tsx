@@ -150,6 +150,11 @@ function HighlightedDocument({ hit, trim = 200 }) {
 function CommandItem({ hits }) {
   const { view } = useOutputEditor(EDITOR_NAME)
 
+  const run = (hit) => {
+    view.focus()
+    hit.document.run(view)
+  }
+
   return (
     <div className="w-full">
       {hits.map((hit) => (
@@ -158,7 +163,7 @@ function CommandItem({ hits }) {
             <HighlightedDocument hit={hit} />
 
             <div className="flex items-center space-x-4">
-              <Button size="sm" onClick={() => hit.document.run(view)}>
+              <Button size="sm" onClick={() => run(hit)}>
                 Run
               </Button>
             </div>

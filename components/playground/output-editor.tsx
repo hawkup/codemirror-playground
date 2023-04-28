@@ -25,7 +25,7 @@ export const lineWrapping = new Compartment()
 const keys = [] as KeyBinding[]
 
 export function OutputEditor() {
-  const container = React.useRef()
+  const container = React.useRef<HTMLDivElement>()
   const { setView, setState } = useOutputEditor(EDITOR_NAME)
   const { toast } = useToast()
 
