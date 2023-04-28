@@ -1,9 +1,9 @@
 "use client"
 
-import { Skeleton } from "@/components/ui/skeleton"
 import { EDITOR_NAME, useOutputEditor } from "@/context/output-editor-context"
 
 import { vimConfig } from "@/lib/vim"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export function State() {
   const { state } = useOutputEditor(EDITOR_NAME)
@@ -37,7 +37,9 @@ export function State() {
         </div>
       </div>
     </div>
-  ) : <Loading />
+  ) : (
+    <Loading />
+  )
 }
 
 function Loading() {
