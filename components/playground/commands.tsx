@@ -63,12 +63,13 @@ export function Commands() {
   return (
     <div className="space-y-4">
       <Input placeholder="search command" onChange={onSearch} />
-
-      <div className="relative overflow-hidden rounded border border-slate-100 shadow-sm">
-        <ScrollArea className="h-[800px] rounded-md">
-          {hits.length ? <CommandItem hits={hits} /> : null}
-        </ScrollArea>
-      </div>
+        {
+          hits.length ? (
+            <ScrollArea className="h-[600px] relative overflow-hidden rounded border border-slate-100 shadow-sm">
+              {hits.length ? <CommandItem hits={hits} /> : null}
+            </ScrollArea>
+          ) : <EmptyState />
+        }
     </div>
   )
 }
@@ -208,6 +209,14 @@ function CommandItem({ hits }) {
           ) : null}
         </div>
       ))}
+    </div>
+  )
+}
+
+function EmptyState() {
+  return (
+    <div className="h-[600px] border rounded shadow-sm flex items-center justify-center">
+      <span className="text-xs text-muted-foreground">Search @codemirror/commands and custom commands</span>
     </div>
   )
 }
