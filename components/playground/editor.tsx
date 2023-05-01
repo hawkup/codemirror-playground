@@ -15,6 +15,12 @@ import { drawCursor } from "@/lib/cursor-layer"
 import { vim, vimConfig } from "@/lib/vim"
 
 const theme = EditorView.theme({
+  "&": {
+    outline: "1px solid hsl(var(--muted))",
+  },
+  "&.cm-focused": {
+    outline: "2px solid hsl(var(--primary))",
+  },
   ".cm-scroller": {
     height: "300px",
   },
@@ -113,7 +119,5 @@ export function Editor() {
     }
   }, [setState, setView])
 
-  return (
-    <div className="h-[300px] w-[500px] rounded-md border" ref={container} />
-  )
+  return <div className="h-[300px] w-[500px]" ref={container} />
 }
